@@ -1,0 +1,21 @@
+# Ambientes virtuais
+.venv/
+venv/
+env/
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Artefatos gerados (podem ser recriados com `python main.py` / `main_vision.py`)
+models/*.joblib
+models/*.pt
+data/breastmnist/
+
+# Sistema
+.DS_Store
+Thumbs.db
+IADT - Fase 1 - Tech challenge A.pdf

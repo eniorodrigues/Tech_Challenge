@@ -1,0 +1,41 @@
+# Tech Challenge - Fase 1 | Dependências
+# Testado com Python 3.11. Instalação:
+#   python -m venv .venv
+#   .venv\Scripts\activate        (Windows)   |   source .venv/bin/activate  (Linux/Mac)
+#   pip install -r requirements.txt
+#
+# Alternativa rápida com uv:
+#   uv venv --python 3.11 .venv
+#   uv pip install -r requirements.txt
+
+# --- Núcleo de dados e ML ---
+numpy==2.4.6
+pandas==3.0.3
+scipy==1.17.1
+scikit-learn==1.9.0
+joblib==1.5.3
+
+# --- Visualização ---
+matplotlib==3.11.0
+seaborn==0.13.2
+
+# --- Explicabilidade ---
+shap==0.51.0
+
+# --- Notebook ---
+jupyter==1.1.1
+ipykernel==7.3.0
+nbformat==5.10.4
+nbconvert==7.17.1
+
+# --- Testes (prova de correção) ---
+pytest==9.1.1
+
+# --- EXTRA: Visão Computacional (CNN) ---
+# Versões CPU. Para instalar as rodas CPU do PyTorch use o índice dedicado:
+#   pip install torch==2.12.1 torchvision==0.27.1 --index-url https://download.pytorch.org/whl/cpu
+# (com uv:  uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu)
+torch==2.12.1
+torchvision==0.27.1
+medmnist==3.0.2          # baixa o BreastMNIST (ultrassom) automaticamente do Zenodo
+scikit-image==0.26.0     # dependência do medmnist
