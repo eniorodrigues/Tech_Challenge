@@ -15,6 +15,18 @@ models/*.joblib
 models/*.pt
 data/breastmnist/
 
+# Gerador de vídeo (scripts/video/)
+# Cache: capturas de terminal, áudios do TTS, prévias e clipes intermediários.
+# Tudo é recriado por `python scripts/video/gerar_video.py`.
+scripts/video/_cache/
+
+# O MP4 final NÃO vai para o git: são dezenas de MB e o repositório não é
+# lugar para binário grande — o vídeo vive no YouTube, e o comando acima
+# regenera o arquivo a partir do roteiro quando preciso.
+# O .srt fica versionado de propósito: é texto, é pequeno, e é útil ter o
+# histórico das legendas junto do roteiro.
+video/*.mp4
+
 # Sistema
 .DS_Store
 Thumbs.db

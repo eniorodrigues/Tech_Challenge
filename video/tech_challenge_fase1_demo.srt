@@ -1,0 +1,921 @@
+1
+00:00:00,100 --> 00:00:01,367
+Olá!
+
+2
+00:00:01,387 --> 00:00:05,830
+Eu sou o Enio Rodrigues, e este é o Tech
+Challenge da Fase um.
+
+3
+00:00:05,850 --> 00:00:10,893
+O desafio é criar a base de um sistema
+inteligente de suporte ao diagnóstico para uma
+
+4
+00:00:10,912 --> 00:00:13,950
+rede de hospitais especializada na saúde da
+mulher.
+
+5
+00:00:14,360 --> 00:00:19,541
+O que eu construí foi um sistema de Machine
+Learning que classifica tumores de mama como
+
+6
+00:00:19,561 --> 00:00:22,328
+malignos ou benignos a partir de dados de
+exame.
+
+7
+00:00:22,348 --> 00:00:27,889
+E, como item extra, uma rede neural
+convolucional que faz o mesmo diagnóstico
+
+8
+00:00:27,909 --> 00:00:30,147
+direto de imagens de ultrassom.
+
+9
+00:00:30,540 --> 00:00:35,357
+A premissa central do projeto é uma só: o
+modelo é um copiloto.
+
+10
+00:00:35,377 --> 00:00:38,402
+O médico tem sempre a palavra final.
+
+11
+00:00:39,250 --> 00:00:45,278
+A base é a Breast Cancer Wisconsin Diagnostic,
+que é justamente a tarefa principal sugerida
+
+12
+00:00:45,298 --> 00:00:46,092
+no enunciado.
+
+13
+00:00:46,112 --> 00:00:52,187
+São quinhentos e sessenta e nove pacientes e
+trinta features numéricas extraídas de imagens
+
+14
+00:00:52,207 --> 00:00:56,942
+de punção por agulha fina: raio, textura,
+perímetro, área, concavidade.
+
+15
+00:00:56,962 --> 00:01:02,600
+Cada uma em três resumos: a média, o
+erro-padrão e o pior valor observado.
+
+16
+00:01:03,020 --> 00:01:08,763
+A distribuição é de trezentos e cinquenta e
+sete benignos contra duzentos e doze malignos.
+
+17
+00:01:08,782 --> 00:01:14,038
+Trinta e sete por cento de malignos: um
+desbalanceamento moderado, que eu trato com
+
+18
+00:01:14,058 --> 00:01:17,745
+estratificação no split e com pesos de classe
+nos modelos.
+
+19
+00:01:18,150 --> 00:01:21,455
+E aqui está uma decisão de projeto importante.
+
+20
+00:01:21,475 --> 00:01:25,580
+O scikit-learn carrega essa base com zero
+igual a maligno.
+
+21
+00:01:25,600 --> 00:01:30,836
+Eu inverti o rótulo para que um seja igual a
+maligno, porque assim o recall passa a
+
+22
+00:01:30,856 --> 00:01:34,255
+significar literalmente: quantos cânceres eu
+detectei.
+
+23
+00:01:34,275 --> 00:01:37,488
+Que é a métrica que importa clinicamente.
+
+24
+00:01:38,330 --> 00:01:43,535
+O projeto está organizado como pacote Python,
+não como um notebook solto.
+
+25
+00:01:43,555 --> 00:01:49,539
+Em src ficam os módulos reutilizáveis: data
+loader carrega os dados, preprocessing faz
+
+26
+00:01:49,559 --> 00:01:54,495
+limpeza e split, e dê a gera a análise
+exploratória, modeling define os
+
+27
+00:01:54,515 --> 00:01:59,731
+classificadores, evaluation calcula as
+métricas, explainability faz feature
+
+28
+00:01:59,751 --> 00:02:02,892
+importance e SHAP, e vision é o extra da CNN.
+
+29
+00:02:03,300 --> 00:02:09,591
+O main ponto py orquestra o pipeline tabular
+de ponta a ponta, e o main vision orquestra o
+
+30
+00:02:09,611 --> 00:02:10,242
+de imagem.
+
+31
+00:02:10,262 --> 00:02:15,767
+Os notebooks contam a mesma história de forma
+narrada, com as saídas já salvas.
+
+32
+00:02:15,787 --> 00:02:19,492
+E tem a pasta tests, com as provas de
+correção.
+
+33
+00:02:19,512 --> 00:02:24,667
+Eu volto nisso no final, porque é o que
+sustenta a credibilidade dos números.
+
+34
+00:02:24,688 --> 00:02:29,225
+Tem também um Dockerfile, para quem quiser
+rodar sem instalar nada.
+
+35
+00:02:30,080 --> 00:02:32,472
+Começando pela exploração.
+
+36
+00:02:32,492 --> 00:02:37,325
+O balanceamento que eu mostrei já mata a
+accuracy como métrica única: um modelo que
+
+37
+00:02:37,345 --> 00:02:41,535
+chutasse benigno para todo mundo já acertaria
+sessenta e três por cento.
+
+38
+00:02:41,555 --> 00:02:45,022
+E aqui está o achado mais forte da exploração.
+
+39
+00:02:45,042 --> 00:02:50,439
+Nas seis features mais correlacionadas com o
+diagnóstico, as duas classes formam duas
+
+40
+00:02:50,459 --> 00:02:55,856
+montanhas claramente separadas: o benigno
+concentrado à esquerda, o maligno deslocado
+
+41
+00:02:55,876 --> 00:02:59,317
+para a direita, com uma zona de sobreposição
+estreita.
+
+42
+00:02:59,730 --> 00:03:05,826
+Traduzindo clinicamente: tumores malignos têm
+núcleos celulares maiores e contornos mais
+
+43
+00:03:05,846 --> 00:03:06,610
+irregulares.
+
+44
+00:03:06,630 --> 00:03:11,723
+Isso é exatamente o que a literatura médica
+descreve, e é o que explica por que esse
+
+45
+00:03:11,743 --> 00:03:15,030
+problema é tratável com modelos relativamente
+simples.
+
+46
+00:03:15,430 --> 00:03:19,935
+A matriz de correlação mostra blocos vermelhos
+muito fortes.
+
+47
+00:03:19,955 --> 00:03:25,097
+Encontrei vinte e um pares de features com
+correlação acima de zero vírgula nove.
+
+48
+00:03:25,117 --> 00:03:31,372
+É multicolinearidade pesada, e é esperada:
+raio, perímetro e área são geometricamente a
+
+49
+00:03:31,392 --> 00:03:32,597
+mesma informação.
+
+50
+00:03:32,617 --> 00:03:38,423
+Isso não atrapalha árvores nem o KNN, mas
+espalha os coeficientes da regressão logística
+
+51
+00:03:38,443 --> 00:03:40,210
+entre features redundantes.
+
+52
+00:03:40,230 --> 00:03:44,480
+Guarde isso, porque volta na parte de
+explicabilidade.
+
+53
+00:03:45,330 --> 00:03:48,310
+O pré-processamento tem três peças.
+
+54
+00:03:48,330 --> 00:03:52,697
+Limpeza defensiva: duplicatas e colunas
+vazias.
+
+55
+00:03:52,718 --> 00:03:56,747
+Imputação pela mediana, que é robusta a
+outliers.
+
+56
+00:03:56,767 --> 00:04:01,654
+E padronização com o StandardScaler, que é
+obrigatória aqui porque as escalas são
+
+57
+00:04:01,674 --> 00:04:06,864
+absurdamente diferentes: mean area está na
+casa dos milhares e mean smoothness na casa
+
+58
+00:04:06,884 --> 00:04:07,772
+dos centésimos.
+
+59
+00:04:07,792 --> 00:04:11,405
+Sem padronizar, o KNN vira lixo.
+
+60
+00:04:11,810 --> 00:04:15,490
+E agora o ponto mais importante do projeto
+inteiro.
+
+61
+00:04:15,510 --> 00:04:19,928
+Repare que o scaler não é aplicado no dataset
+antes do split.
+
+62
+00:04:19,947 --> 00:04:25,015
+Ele vive dentro de um Pipeline do
+scikit-learn, junto com o classificador.
+
+63
+00:04:25,035 --> 00:04:30,456
+Isso garante que a média e o desvio sejam
+aprendidos só do treino, a cada fold da
+
+64
+00:04:30,476 --> 00:04:31,665
+validação cruzada.
+
+65
+00:04:31,685 --> 00:04:37,763
+Se eu normalizasse o dataset inteiro antes,
+teria vazamento de dados, e os números seriam
+
+66
+00:04:37,783 --> 00:04:39,065
+otimistas e falsos.
+
+67
+00:04:39,085 --> 00:04:45,735
+O split é oitenta, vinte, estratificado, para
+manter a proporção de malignos nos dois lados.
+
+68
+00:04:46,590 --> 00:04:49,645
+Vou rodar o pipeline completo agora.
+
+69
+00:04:49,665 --> 00:04:52,733
+Ele executa sete etapas em sequência.
+
+70
+00:04:52,752 --> 00:04:58,395
+Carregamento e limpeza: quinhentos e sessenta
+e nove pacientes, trinta features.
+
+71
+00:04:58,415 --> 00:05:05,025
+Exploração: balanceamento, valores ausentes
+(nenhum), estatísticas descritivas e
+
+72
+00:05:05,045 --> 00:05:06,040
+correlações.
+
+73
+00:05:06,440 --> 00:05:12,099
+Split: quatrocentos e cinquenta e cinco de
+treino, cento e quatorze de teste, com a
+
+74
+00:05:12,119 --> 00:05:14,308
+proporção de malignos preservada.
+
+75
+00:05:14,328 --> 00:05:20,407
+E olha a linha que o próprio pipeline imprime:
+a padronização vive dentro do pipeline, sem
+
+76
+00:05:20,427 --> 00:05:21,695
+vazamento de dados.
+
+77
+00:05:21,715 --> 00:05:28,114
+Depois, modelagem: quatro técnicas, com
+validação cruzada estratificada de cinco
+
+78
+00:05:28,134 --> 00:05:28,615
+folds.
+
+79
+00:05:29,030 --> 00:05:32,360
+Aqui está a avaliação no conjunto de teste.
+
+80
+00:05:32,380 --> 00:05:37,789
+Repare que ele imprime a matriz de confusão
+detalhada do melhor modelo e destaca os falsos
+
+81
+00:05:37,809 --> 00:05:41,348
+negativos: os tumores malignos que passariam
+despercebidos.
+
+82
+00:05:41,368 --> 00:05:44,680
+Esse é o número que eu mais persigo no
+projeto.
+
+83
+00:05:45,090 --> 00:05:50,824
+E o pipeline fecha com explicabilidade e
+persistência: o melhor modelo vai para disco
+
+84
+00:05:50,844 --> 00:05:56,578
+em formato joblib, as métricas viram CSV e as
+sete figuras são regravadas em reports,
+
+85
+00:05:56,598 --> 00:05:57,070
+figures.
+
+86
+00:05:57,090 --> 00:06:00,515
+Tudo reprodutível a partir de um único
+comando.
+
+87
+00:06:01,360 --> 00:06:06,202
+Antes dos números, a pergunta certa: qual
+métrica importa aqui?
+
+88
+00:06:06,222 --> 00:06:08,840
+Os erros têm custo assimétrico.
+
+89
+00:06:08,860 --> 00:06:15,089
+Um falso negativo, dizer que um tumor maligno
+é benigno, atrasa o tratamento e coloca a vida
+
+90
+00:06:15,109 --> 00:06:16,515
+da paciente em risco.
+
+91
+00:06:16,535 --> 00:06:22,550
+Um falso positivo, dizer que um benigno é
+maligno, gera uma biópsia desnecessária e
+
+92
+00:06:22,570 --> 00:06:23,278
+ansiedade.
+
+93
+00:06:23,298 --> 00:06:26,915
+É um custo real, mas incomparavelmente menor.
+
+94
+00:06:26,935 --> 00:06:32,610
+Por isso a métrica prioritária do projeto é o
+recall da classe maligna, com F um e precisão
+
+95
+00:06:32,630 --> 00:06:36,447
+como contrapeso, para não virar um alarme que
+dispara sempre.
+
+96
+00:06:36,860 --> 00:06:42,050
+No conjunto de teste, com cento e quatorze
+pacientes: a Regressão Logística teve noventa
+
+97
+00:06:42,070 --> 00:06:47,201
+e sete vírgula quatro por cento de accuracy e
+noventa e cinco vírgula dois por cento de
+
+98
+00:06:47,221 --> 00:06:47,621
+recall.
+
+99
+00:06:47,585 --> 00:06:52,928
+Ela detectou quarenta dos quarenta e dois
+tumores malignos, com apenas dois falsos
+
+100
+00:06:52,948 --> 00:06:54,890
+negativos e um falso positivo.
+
+101
+00:06:54,910 --> 00:06:58,660
+Área sob a curva de zero vírgula nove nove
+cinco.
+
+102
+00:06:59,070 --> 00:07:04,706
+O Random Forest empatou em accuracy e teve a
+melhor área sob a curva, zero vírgula nove
+
+103
+00:07:04,726 --> 00:07:08,688
+nove oito, e precisão de cem por cento: nenhum
+falso positivo.
+
+104
+00:07:08,707 --> 00:07:12,738
+Mas deixou passar três malignos, em vez de
+dois.
+
+105
+00:07:12,757 --> 00:07:17,875
+E aqui está o trade-off explícito: pelo
+critério do projeto, um câncer a menos
+
+106
+00:07:17,895 --> 00:07:22,025
+passando despercebido vale mais do que um
+alarme falso a menos.
+
+107
+00:07:22,045 --> 00:07:25,732
+Por isso o modelo escolhido é a Regressão
+Logística.
+
+108
+00:07:26,150 --> 00:07:29,530
+KNN e Árvore de Decisão ficam atrás.
+
+109
+00:07:29,550 --> 00:07:35,489
+A árvore em especial, com área sob a curva de
+zero vírgula noventa, mostrando que uma única
+
+110
+00:07:35,509 --> 00:07:38,305
+árvore rasa não captura bem essa fronteira.
+
+111
+00:07:38,325 --> 00:07:44,330
+Na curva Erre O Cê, três dos quatro modelos
+ficam colados no canto superior esquerdo.
+
+112
+00:07:44,350 --> 00:07:47,450
+A árvore é a única visivelmente pior.
+
+113
+00:07:48,300 --> 00:07:54,388
+Explicabilidade é obrigatória em saúde: nenhum
+médico aceita um modelo que diz é maligno sem
+
+114
+00:07:54,408 --> 00:07:55,267
+dizer por quê.
+
+115
+00:07:55,287 --> 00:08:00,605
+Este primeiro gráfico são os coeficientes da
+Regressão Logística em valor absoluto.
+
+116
+00:08:00,625 --> 00:08:04,730
+Como as features estão padronizadas, eles são
+comparáveis.
+
+117
+00:08:04,750 --> 00:08:09,637
+No topo aparecem worst texture, radius error e
+worst symmetry.
+
+118
+00:08:10,050 --> 00:08:15,367
+E aqui eu preciso ser honesto sobre uma
+sutileza: isso não significa que raio e área
+
+119
+00:08:15,387 --> 00:08:16,142
+não importam.
+
+120
+00:08:16,162 --> 00:08:20,530
+Lembra da multicolinearidade que eu mostrei na
+matriz de correlação?
+
+121
+00:08:20,550 --> 00:08:25,592
+Quando várias features carregam a mesma
+informação, o modelo linear divide o peso
+
+122
+00:08:25,612 --> 00:08:28,342
+entre elas e nenhuma aparece grande sozinha.
+
+123
+00:08:28,362 --> 00:08:33,385
+Coeficiente de modelo linear sob
+multicolinearidade não é uma medida confiável
+
+124
+00:08:33,405 --> 00:08:34,355
+de importância.
+
+125
+00:08:34,375 --> 00:08:37,700
+E é exatamente por isso que o SHAP existe.
+
+126
+00:08:38,110 --> 00:08:40,252
+O SHAP resolve isso.
+
+127
+00:08:40,272 --> 00:08:45,852
+Ele vem da teoria dos jogos e atribui a cada
+feature uma contribuição para cada previsão
+
+128
+00:08:45,872 --> 00:08:46,552
+individual.
+
+129
+00:08:46,572 --> 00:08:51,615
+Dá para perguntar: por que esta paciente foi
+classificada como maligno?
+
+130
+00:08:51,635 --> 00:08:57,730
+Rodei sobre o Random Forest, e o resultado é
+limpo: as features que mais pesam são worst
+
+131
+00:08:57,750 --> 00:09:03,310
+area, worst perimeter, worst concave points,
+mean concave points e worst radius.
+
+132
+00:09:03,720 --> 00:09:10,057
+E veja o código de cores: os pontos vermelhos,
+valores altos dessas medidas, estão todos do
+
+133
+00:09:10,077 --> 00:09:13,500
+lado positivo, empurrando a previsão para
+maligno.
+
+134
+00:09:13,520 --> 00:09:17,787
+Os azuis, valores baixos, empurram para
+benigno.
+
+135
+00:09:17,807 --> 00:09:22,137
+Ou seja: o modelo aprendeu exatamente o
+critério clínico.
+
+136
+00:09:22,157 --> 00:09:26,412
+Núcleo maior e contorno mais irregular indica
+malignidade.
+
+137
+00:09:26,432 --> 00:09:29,150
+Não é uma correlação espúria.
+
+138
+00:09:29,170 --> 00:09:33,532
+É isso que dá confiança para colocar o modelo
+perto de um médico.
+
+139
+00:09:34,390 --> 00:09:39,832
+O item extra do enunciado é diagnóstico por
+imagem com rede neural convolucional.
+
+140
+00:09:39,852 --> 00:09:45,549
+Eu usei o BreastMNIST, derivado do dataset
+BUSI: setecentas e oitenta imagens de
+
+141
+00:09:45,569 --> 00:09:52,194
+ultrassom de mama, baixadas automaticamente do
+Zenodo, sem depender do Kaggle, o que mantém o
+
+142
+00:09:52,214 --> 00:09:53,715
+projeto reprodutível.
+
+143
+00:09:54,120 --> 00:09:59,935
+A rede é uma CNN compacta: três blocos
+convolucionais e um classificador denso, cerca
+
+144
+00:09:59,955 --> 00:10:02,150
+de vinte e quatro mil parâmetros.
+
+145
+00:10:02,170 --> 00:10:04,987
+Treina em CPU em poucos minutos.
+
+146
+00:10:05,007 --> 00:10:10,357
+Mantive a mesma convenção clínica: um igual a
+maligno, foco em recall.
+
+147
+00:10:10,760 --> 00:10:14,452
+E aqui tem a discussão mais interessante do
+extra.
+
+148
+00:10:14,472 --> 00:10:20,139
+A CNN devolve uma probabilidade, então eu
+escolho o limiar de decisão conforme a
+
+149
+00:10:20,159 --> 00:10:21,490
+prioridade clínica.
+
+150
+00:10:21,510 --> 00:10:25,452
+E calibro esse limiar na validação, nunca no
+teste.
+
+151
+00:10:25,472 --> 00:10:31,024
+No limiar padrão de zero vírgula cinquenta:
+accuracy de oitenta e cinco por cento, recall
+
+152
+00:10:31,044 --> 00:10:32,965
+de sessenta e quatro por cento.
+
+153
+00:10:32,985 --> 00:10:35,760
+Quinze cânceres não detectados.
+
+154
+00:10:36,160 --> 00:10:41,212
+No ponto de operação clínico, limiar zero
+vírgula vinte e nove, o recall sobe para
+
+155
+00:10:41,232 --> 00:10:45,615
+setenta e nove por cento e os falsos negativos
+caem de quinze para nove.
+
+156
+00:10:45,635 --> 00:10:49,440
+O preço é a precisão cair: mais alarmes
+falsos.
+
+157
+00:10:49,460 --> 00:10:52,652
+Em triagem, esse é o trade-off certo.
+
+158
+00:10:52,672 --> 00:10:58,797
+Um falso positivo custa um exame a mais; um
+falso negativo custa um câncer não tratado.
+
+159
+00:10:59,210 --> 00:11:04,762
+E a explicabilidade da imagem é o Grad-CAM,
+que é o análogo visual do SHAP: ele destaca as
+
+160
+00:11:04,782 --> 00:11:07,065
+regiões que a rede olhou para decidir.
+
+161
+00:11:07,085 --> 00:11:12,479
+E aqui eu vou ser honesto na leitura: em
+vários exemplos o mapa de calor está espalhado
+
+162
+00:11:12,499 --> 00:11:15,715
+pela textura do tecido, e não concentrado no
+nódulo.
+
+163
+00:11:15,735 --> 00:11:18,515
+Isso é um sinal de alerta legítimo.
+
+164
+00:11:18,535 --> 00:11:24,440
+Indica que a rede está se apoiando em textura
+geral e ruído de speckle, e não na lesão.
+
+165
+00:11:24,460 --> 00:11:30,479
+É exatamente para isso que o Grad-CAM serve:
+ele permite auditar o modelo antes de confiar
+
+166
+00:11:30,499 --> 00:11:30,899
+nele.
+
+167
+00:11:31,230 --> 00:11:35,272
+O modelo de imagem é honestamente mais fraco
+que o tabular.
+
+168
+00:11:35,292 --> 00:11:40,497
+Área sob a curva de zero vírgula oitenta e
+cinco contra zero vírgula noventa e nove.
+
+169
+00:11:40,517 --> 00:11:45,832
+E isso é esperado: ele resolve um problema
+muito mais difícil, aprendendo direto dos
+
+170
+00:11:45,852 --> 00:11:51,295
+pixels, com pouquíssimos dados e imagens de
+baixa resolução, enquanto o tabular recebe
+
+171
+00:11:51,315 --> 00:11:53,835
+features que especialistas já extraíram.
+
+172
+00:11:53,855 --> 00:11:59,890
+Ele é uma prova de conceito, e o caminho de
+evolução é claro: transfer learning com ResNet
+
+173
+00:11:59,910 --> 00:12:03,005
+ou EfficientNet, imagens maiores e mais dados.
+
+174
+00:12:03,870 --> 00:12:08,337
+Por último, o que sustenta tudo que eu falei:
+os testes.
+
+175
+00:12:08,357 --> 00:12:13,870
+São dezenove testes: doze do pipeline tabular
+e sete da CNN.
+
+176
+00:12:14,270 --> 00:12:19,462
+E o mais importante é este aqui: teste scaler
+ajustado somente no treino.
+
+177
+00:12:19,482 --> 00:12:24,845
+Ele prova que o StandardScaler aprendeu a
+média do conjunto de treino, e não a do
+
+178
+00:12:24,865 --> 00:12:25,975
+dataset completo.
+
+179
+00:12:25,995 --> 00:12:31,831
+Se esse teste falhasse, haveria vazamento de
+dados e todos os números que eu mostrei seriam
+
+180
+00:12:31,851 --> 00:12:32,475
+inválidos.
+
+181
+00:12:32,495 --> 00:12:37,237
+Tem também o teste que prova que o
+remapeamento do rótulo está correto.
+
+182
+00:12:37,257 --> 00:12:43,017
+Se o maligno não fosse a classe positiva, todo
+o recall que eu discuti estaria invertido e
+
+183
+00:12:43,037 --> 00:12:43,807
+sem sentido.
+
+184
+00:12:44,650 --> 00:12:50,192
+Fechando com a pergunta que o enunciado faz:
+esse modelo pode ser usado na prática?
+
+185
+00:12:50,212 --> 00:12:54,955
+Sim, mas como ferramenta de apoio, nunca de
+decisão autônoma.
+
+186
+00:12:54,975 --> 00:13:00,874
+Dois usos concretos: priorização de fila,
+sinalizando casos de alto risco para revisão
+
+187
+00:13:00,894 --> 00:13:05,692
+rápida; e segunda opinião, alertando quando o
+modelo diverge do laudo.
+
+188
+00:13:05,712 --> 00:13:08,000
+Uma rede de segurança.
+
+189
+00:13:08,420 --> 00:13:14,229
+As limitações, com honestidade: a base é
+pequena e de fonte única; as features já foram
+
+190
+00:13:14,249 --> 00:13:19,723
+extraídas por especialistas, então o modelo
+não substitui o exame; e isso não é um
+
+191
+00:13:19,743 --> 00:13:21,750
+dispositivo médico certificado.
+
+192
+00:13:21,770 --> 00:13:26,893
+Um uso real exigiria validação externa e
+prospectiva, aprovação regulatória e
+
+193
+00:13:26,913 --> 00:13:30,320
+monitoramento de viés entre subgrupos de
+pacientes.
+
+194
+00:13:30,720 --> 00:13:34,437
+O sistema entrega probabilidade mais
+explicação.
+
+195
+00:13:34,457 --> 00:13:36,975
+A conduta é do profissional.
+
+196
+00:13:36,995 --> 00:13:40,000
+O médico tem sempre a palavra final.
+
+197
+00:13:40,020 --> 00:13:41,657
+Obrigado!

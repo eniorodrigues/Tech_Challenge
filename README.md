@@ -49,6 +49,7 @@ diretamente "proporção de malignos detectados".
 Tech_Challenge/
 ├── main.py                     # Pipeline tabular completo (CLI)
 ├── main_vision.py              # EXTRA: pipeline da CNN de imagem (CLI)
+├── Dockerfile                  # Imagem reprodutível (CPU) — ver seção 4.1
 ├── requirements.txt
 ├── README.md
 ├── src/                        # Módulos reutilizáveis
@@ -66,6 +67,10 @@ Tech_Challenge/
 ├── tests/
 │   ├── test_pipeline.py        # Provas de correção tabular (inclui anti-leakage)
 │   └── test_vision.py          # Provas de correção da CNN (inclui remap do rótulo)
+├── docs/
+│   └── ROTEIRO_VIDEO.md        # Roteiro do vídeo de demonstração
+├── scripts/
+│   └── gerar_entregavel_pdf.py # Gera o PDF entregável da Fase 1
 ├── data/                       # CSV da base + BreastMNIST (imagens) em cache
 ├── models/                     # melhor_modelo.joblib + cnn_breastmnist.pt
 └── reports/
@@ -106,6 +111,40 @@ jupyter notebook notebooks/tech_challenge_cnn_imagem.ipynb
 
 > Dica: com [uv](https://docs.astral.sh/uv/) é mais rápido —
 > `uv venv --python 3.11 .venv` e `uv pip install -r requirements.txt`.
+
+### 4.1 Execução via Docker
+
+O `Dockerfile` monta a imagem já com as rodas **CPU** do PyTorch (sem
+dependência de GPU/CUDA). Os volumes trazem figuras e modelos de volta ao host.
+
+```bash
+# Build
+docker build -t tech-challenge-fase1 .
+
+# Pipeline tabular (comando padrão da imagem)
+docker run --rm -v "$(pwd)/reports:/app/reports" -v "$(pwd)/models:/app/models" tech-challenge-fase1
+
+# Pipeline da CNN (EXTRA)
+docker run --rm -v "$(pwd)/reports:/app/reports" -v "$(pwd)/models:/app/models" \
+  tech-challenge-fase1 python main_vision.py
+
+# Provas de correção
+docker run --rm tech-challenge-fase1 python -m pytest -v
+
+# Notebooks em http://localhost:8888
+docker run --rm -p 8888:8888 tech-challenge-fase1 \
+  jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+```
+
+### 4.2 Gerar o PDF entregável
+
+```bash
+python scripts/gerar_entregavel_pdf.py --repo <URL_DO_REPO> --video <URL_DO_VIDEO> --autores "Seu Nome"
+```
+
+Gera `Tech_Challenge_Fase1_Entregavel.pdf` na raiz, consolidando relatório
+técnico, resultados, figuras e roteiro do vídeo. As tabelas de métricas são
+lidas de `reports/*.csv`, então rode `main.py` antes.
 
 ## 5. Metodologia e decisões técnicas
 
@@ -153,11 +192,23 @@ passar mais um maligno — o trade-off é discutido no notebook.
 
 ### Explicabilidade
 
-As features mais decisivas — `worst concave points`, `worst perimeter`,
-`worst area`, `worst radius` — são **clinicamente coerentes**: tumores malignos
-têm núcleos maiores e contornos mais irregulares. O SHAP confirma que valores
-altos dessas medidas empurram a previsão para "maligno". O modelo aprendeu
-padrões plausíveis, o que aumenta a confiança para uso clínico assistido.
+As duas técnicas contam histórias complementares — e a diferença entre elas é
+instrutiva:
+
+- **Coeficientes da Regressão Logística** (fig. 06): no topo aparecem
+  `worst texture`, `radius error` e `worst symmetry`. Isso **não** significa que
+  raio e área sejam irrelevantes: é a **multicolinearidade** (21 pares com
+  |r| ≥ 0,9) repartindo o peso entre features redundantes. Coeficiente linear
+  sob multicolinearidade não é medida confiável de importância.
+- **SHAP** (fig. 07), calculado sobre o Random Forest: as features de maior
+  impacto são `worst area`, `worst perimeter`, `worst concave points`,
+  `mean concave points` e `worst radius` — **convergindo com a EDA** e
+  corrigindo a leitura enviesada dos coeficientes. Valores altos dessas medidas
+  empurram consistentemente a previsão para "maligno".
+
+A leitura final é **clinicamente coerente**: tumores malignos têm núcleos
+maiores e contornos mais irregulares. O modelo aprendeu o critério que a
+patologia já reconhece, o que aumenta a confiança para uso clínico assistido.
 
 ## 7. O modelo pode ser usado na prática?
 
@@ -178,7 +229,16 @@ padrões plausíveis, o que aumenta a confiança para uso clínico assistido.
 resultados, com destaque para o **teste anti-vazamento de dados**: prova que o
 `StandardScaler` aprende as estatísticas **apenas do treino** e não do dataset
 completo. Se esse teste falha, os números de desempenho não são confiáveis.
-Todos os 12 testes passam.
+
+`tests/test_vision.py` faz o mesmo para o pipeline da CNN, com destaque para o
+**teste de remapeamento do rótulo** — se o maligno não fosse a classe positiva,
+todo o recall discutido estaria invertido.
+
+**Os 19 testes passam** (12 tabulares + 7 de visão):
+
+```bash
+python -m pytest -v
+```
 
 ## 9. EXTRA — Visão Computacional (CNN em imagens)
 
@@ -244,3 +304,6 @@ antes de confiar na recomendação.
 | Projeto Python estruturado e documentado | todo o repositório |
 | **EXTRA** — diagnóstico por imagem com CNN | `src/vision.py`, `main_vision.py`, notebook CNN |
 | **EXTRA** — explicabilidade da CNN (Grad-CAM) | `src/vision.py`, notebook CNN §6 |
+| Dockerfile | `Dockerfile`, README §4.1 |
+| PDF entregável | `scripts/gerar_entregavel_pdf.py` → `Tech_Challenge_Fase1_Entregavel.pdf` |
+| Roteiro do vídeo de demonstração | `docs/ROTEIRO_VIDEO.md` |
