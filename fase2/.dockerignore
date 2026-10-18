@@ -1,0 +1,16 @@
+**
+!Dockerfile
+!pyproject.toml
+!README.md
+!src/
+!src/**
+!app/
+!app/**
+!data/
+!data/**
+!reports/
+!reports/**
+!.streamlit/
+!.streamlit/config.toml
+**/__pycache__/
+**/*.pyc

@@ -1,0 +1,8 @@
+[Unit]
+Description=Verificar atualizacoes do MedRoute
+[Timer]
+OnBootSec=90s
+OnUnitInactiveSec=60s
+Unit=medroute-update.service
+[Install]
+WantedBy=timers.target
