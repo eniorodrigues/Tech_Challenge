@@ -1,0 +1,238 @@
+[
+  {
+    "arquivo": "instrucoes_V1.md",
+    "tarefa": "instrucoes",
+    "origem": "llm",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 49.06,
+    "validacao": {
+      "nota": 100.0,
+      "cobertura_paradas": 1.0,
+      "ordem_correta": true,
+      "horarios_citados": 1.0,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [],
+      "observacoes": []
+    },
+    "aviso": null
+  },
+  {
+    "arquivo": "instrucoes_V2.md",
+    "tarefa": "instrucoes",
+    "origem": "llm",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 66.9,
+    "validacao": {
+      "nota": 94.0,
+      "cobertura_paradas": 1.0,
+      "ordem_correta": true,
+      "horarios_citados": 1.0,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [
+        "0,9%",
+        "0,9%",
+        "214 kg"
+      ],
+      "observacoes": []
+    },
+    "aviso": null
+  },
+  {
+    "arquivo": "instrucoes_V3.md",
+    "tarefa": "instrucoes",
+    "origem": "llm",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 28.47,
+    "validacao": {
+      "nota": 96.0,
+      "cobertura_paradas": 1.0,
+      "ordem_correta": true,
+      "horarios_citados": 1.0,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [
+        "0,9%",
+        "29.47 km"
+      ],
+      "observacoes": []
+    },
+    "aviso": null
+  },
+  {
+    "arquivo": "instrucoes_V4.md",
+    "tarefa": "instrucoes",
+    "origem": "llm",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 35.99,
+    "validacao": {
+      "nota": 100.0,
+      "cobertura_paradas": 1.0,
+      "ordem_correta": true,
+      "horarios_citados": 1.0,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [],
+      "observacoes": []
+    },
+    "aviso": null
+  },
+  {
+    "arquivo": "instrucoes_V5.md",
+    "tarefa": "instrucoes",
+    "origem": "llm",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 19.66,
+    "validacao": {
+      "nota": 92.0,
+      "cobertura_paradas": 1.0,
+      "ordem_correta": true,
+      "horarios_citados": 1.0,
+      "ids_inexistentes": [],
+      "horarios_inventados": [
+        "02:20"
+      ],
+      "numeros_nao_rastreaveis": [],
+      "observacoes": []
+    },
+    "aviso": null
+  },
+  {
+    "arquivo": "relatorio_diario.md",
+    "tarefa": "relatorio_diario",
+    "origem": "llm",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 62.96,
+    "validacao": {
+      "nota": 100.0,
+      "cobertura_paradas": null,
+      "ordem_correta": null,
+      "horarios_citados": null,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [],
+      "observacoes": []
+    },
+    "aviso": null
+  },
+  {
+    "arquivo": "relatorio_semanal.md",
+    "tarefa": "relatorio_semanal",
+    "origem": "llm",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 35.85,
+    "validacao": {
+      "nota": 98.0,
+      "cobertura_paradas": null,
+      "ordem_correta": null,
+      "horarios_citados": null,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [
+        "25%"
+      ],
+      "observacoes": []
+    },
+    "aviso": null
+  },
+  {
+    "arquivo": "sugestoes_melhoria.md",
+    "tarefa": "sugestoes",
+    "origem": "llm",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 34.65,
+    "validacao": {
+      "nota": 74.0,
+      "cobertura_paradas": null,
+      "ordem_correta": null,
+      "horarios_citados": null,
+      "ids_inexistentes": [],
+      "horarios_inventados": [
+        "12:40",
+        "13:23"
+      ],
+      "numeros_nao_rastreaveis": [
+        "34,9 km",
+        "R$ 77,17",
+        "22,3 km",
+        "R$ 129,92",
+        "30 min"
+      ],
+      "observacoes": []
+    },
+    "aviso": null
+  },
+  {
+    "arquivo": "perguntas_e_respostas.md",
+    "tarefa": "pergunta",
+    "pergunta": "Qual veículo leva a insulina do paciente PD-05 e a que horas chega?",
+    "origem": "llm",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 3.5,
+    "validacao": {
+      "nota": 100.0,
+      "cobertura_paradas": null,
+      "ordem_correta": null,
+      "horarios_citados": null,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [],
+      "observacoes": []
+    }
+  },
+  {
+    "arquivo": "perguntas_e_respostas.md",
+    "tarefa": "pergunta",
+    "pergunta": "Alguma entrega crítica corre risco de atraso? O que fazer?",
+    "origem": "llm",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 3.99,
+    "validacao": {
+      "nota": 100.0,
+      "cobertura_paradas": null,
+      "ordem_correta": null,
+      "horarios_citados": null,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [],
+      "observacoes": []
+    }
+  },
+  {
+    "arquivo": "perguntas_e_respostas.md",
+    "tarefa": "pergunta",
+    "pergunta": "Quais entregas de medicamentos controlados existem hoje e em quais veículos?",
+    "origem": "llm",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 8.31,
+    "validacao": {
+      "nota": 100.0,
+      "cobertura_paradas": null,
+      "ordem_correta": null,
+      "horarios_citados": null,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [],
+      "observacoes": []
+    }
+  },
+  {
+    "arquivo": "perguntas_e_respostas.md",
+    "tarefa": "pergunta",
+    "pergunta": "Qual é o telefone do paciente PD-08?",
+    "origem": "llm",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 2.39,
+    "validacao": {
+      "nota": 100.0,
+      "cobertura_paradas": null,
+      "ordem_correta": null,
+      "horarios_citados": null,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [],
+      "observacoes": []
+    }
+  }
+]

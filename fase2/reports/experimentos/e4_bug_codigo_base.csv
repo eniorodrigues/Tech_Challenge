@@ -1,0 +1,21 @@
+metodo,seed,km_tsp,tempo_s
+TSP base como fornecido (pai × pai),1,273.68,2.24
+TSP base com crossover corrigido,1,191.09,2.6
+TSP base como fornecido (pai × pai),2,259.3,2.28
+TSP base com crossover corrigido,2,222.75,3.37
+TSP base como fornecido (pai × pai),3,264.66,2.38
+TSP base com crossover corrigido,3,217.17,2.26
+TSP base como fornecido (pai × pai),4,281.88,3.29
+TSP base com crossover corrigido,4,234.97,2.32
+TSP base como fornecido (pai × pai),5,266.38,3.28
+TSP base com crossover corrigido,5,227.26,3.3
+TSP base como fornecido (pai × pai),6,259.48,3.17
+TSP base com crossover corrigido,6,209.11,1.88
+TSP base como fornecido (pai × pai),7,256.19,3.15
+TSP base com crossover corrigido,7,188.16,3.17
+TSP base como fornecido (pai × pai),8,254.77,1.66
+TSP base com crossover corrigido,8,249.47,1.77
+TSP base como fornecido (pai × pai),9,250.7,1.7
+TSP base com crossover corrigido,9,218.88,1.86
+TSP base como fornecido (pai × pai),10,305.8,1.72
+TSP base com crossover corrigido,10,247.46,1.79

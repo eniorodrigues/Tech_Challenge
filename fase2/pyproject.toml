@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "medroute"
+version = "2.0.0"
+description = "Tech Challenge Fase 2 — otimização de rotas de medicamentos e insumos com algoritmo genético (VRP) + LLM"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Enio Rodrigues" }]
+dependencies = [
+    "numpy>=2.0",
+    "pandas>=2.2",
+    "scipy>=1.13",
+    "matplotlib>=3.9",
+    "folium>=0.17",
+    "httpx>=0.27",
+    "python-dotenv>=1.0",
+    "pydantic>=2.7",
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "streamlit>=1.38",
+    "pillow>=10.0",
+]
+
+[project.optional-dependencies]
+# Solver industrial usado só no comparativo de desempenho.
+benchmark = ["ortools>=9.10"]
+# Visualizador ao vivo herdado do código base (pygame).
+pygame = ["pygame>=2.5"]
+# Gerador do vídeo e do PDF entregável.
+video = ["edge-tts>=6.1", "imageio-ffmpeg>=0.5", "reportlab>=4.0", "selenium>=4.20"]
+dev = ["pytest>=8.0", "pytest-cov>=5.0", "jupyter>=1.0", "nbconvert>=7.0", "ipykernel>=6.0"]
+
+[project.scripts]
+medroute = "medroute.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = [
+    "slow: testes que rodam o GA completo (alguns segundos)",
+    "online: testes que chamam a API real da OpenRouter (pulados por padrão)",
+]
+filterwarnings = ["ignore::DeprecationWarning", "ignore:.*starlette.testclient.*"]
+
+# Compatível com Poetry 2.x (lê a seção [project] do PEP 621):
+#   poetry install --with dev
+[tool.poetry]
+package-mode = true
+packages = [{ include = "medroute", from = "src" }]

@@ -1,0 +1,902 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "MedRoute API",
+  "description": "Otimização de rotas para distribuição de medicamentos e insumos hospitalares (VRP com prioridades, capacidade, autonomia, frota heterogênea, cadeia fria, controlados e janelas de horário) por **algoritmo genético**, com uma **LLM** gerando instruções, relatórios, sugestões e respostas em linguagem natural.\n\nTech Challenge — Fase 2 (FIAP · IA para Devs).",
+  "version": "2.0.0"
+ },
+ "paths": {
+  "/health": {
+   "get": {
+    "tags": [
+     "sistema"
+    ],
+    "summary": "Estado da API",
+    "operationId": "health_health_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": true,
+         "type": "object",
+         "title": "Response Health Health Get"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/cenarios/padrao": {
+   "get": {
+    "tags": [
+     "cenários"
+    ],
+    "summary": "Cenário de referência (semente 42)",
+    "operationId": "cenario_padrao_cenarios_padrao_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": true,
+         "type": "object",
+         "title": "Response Cenario Padrao Cenarios Padrao Get"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/cenarios/gerar": {
+   "post": {
+    "tags": [
+     "cenários"
+    ],
+    "summary": "Gera um cenário sintético reprodutível",
+    "operationId": "gerar_cenario_cenarios_gerar_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PedidoCenario"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": true,
+         "type": "object",
+         "title": "Response Gerar Cenario Cenarios Gerar Post"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/otimizar": {
+   "post": {
+    "tags": [
+     "otimização"
+    ],
+    "summary": "Roda o algoritmo genético",
+    "operationId": "otimizar_otimizar_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PedidoOtimizacao"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": true,
+         "type": "object",
+         "title": "Response Otimizar Otimizar Post"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/comparar": {
+   "post": {
+    "tags": [
+     "otimização"
+    ],
+    "summary": "Compara abordagens no mesmo cenário",
+    "operationId": "comparar_comparar_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PedidoComparacao"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": true,
+         "type": "object",
+         "title": "Response Comparar Comparar Post"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/planos/{plano_id}": {
+   "get": {
+    "tags": [
+     "planos"
+    ],
+    "summary": "Plano completo (rotas, horários, KPIs)",
+    "operationId": "obter_plano_planos__plano_id__get",
+    "parameters": [
+     {
+      "name": "plano_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Plano Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "additionalProperties": true,
+         "title": "Response Obter Plano Planos  Plano Id  Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/planos/{plano_id}/mapa": {
+   "get": {
+    "tags": [
+     "planos"
+    ],
+    "summary": "Mapa interativo (HTML/Leaflet)",
+    "operationId": "mapa_planos__plano_id__mapa_get",
+    "parameters": [
+     {
+      "name": "plano_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Plano Id"
+      }
+     },
+     {
+      "name": "processo_atual",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "default": false,
+       "title": "Processo Atual"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "text/html": {
+        "schema": {
+         "type": "string"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/planos/{plano_id}/instrucoes/{veiculo}": {
+   "post": {
+    "tags": [
+     "llm"
+    ],
+    "summary": "Instruções detalhadas para o(a) motorista",
+    "operationId": "instrucoes_planos__plano_id__instrucoes__veiculo__post",
+    "parameters": [
+     {
+      "name": "plano_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Plano Id"
+      }
+     },
+     {
+      "name": "veiculo",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Veiculo"
+      }
+     },
+     {
+      "name": "modo",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "enum": [
+        "auto",
+        "llm",
+        "offline"
+       ],
+       "type": "string",
+       "default": "auto",
+       "title": "Modo"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "additionalProperties": true,
+         "title": "Response Instrucoes Planos  Plano Id  Instrucoes  Veiculo  Post"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/planos/{plano_id}/relatorio": {
+   "post": {
+    "tags": [
+     "llm"
+    ],
+    "summary": "Relatório diário de eficiência",
+    "operationId": "relatorio_planos__plano_id__relatorio_post",
+    "parameters": [
+     {
+      "name": "plano_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Plano Id"
+      }
+     },
+     {
+      "name": "modo",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "enum": [
+        "auto",
+        "llm",
+        "offline"
+       ],
+       "type": "string",
+       "default": "auto",
+       "title": "Modo"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "additionalProperties": true,
+         "title": "Response Relatorio Planos  Plano Id  Relatorio Post"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/planos/{plano_id}/sugestoes": {
+   "post": {
+    "tags": [
+     "llm"
+    ],
+    "summary": "Sugestões de melhoria (com simulações 'e se')",
+    "operationId": "sugestoes_planos__plano_id__sugestoes_post",
+    "parameters": [
+     {
+      "name": "plano_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Plano Id"
+      }
+     },
+     {
+      "name": "modo",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "enum": [
+        "auto",
+        "llm",
+        "offline"
+       ],
+       "type": "string",
+       "default": "auto",
+       "title": "Modo"
+      }
+     },
+     {
+      "name": "simular",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "description": "Roda as simulações 'e se'",
+       "default": true,
+       "title": "Simular"
+      },
+      "description": "Roda as simulações 'e se'"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "additionalProperties": true,
+         "title": "Response Sugestoes Planos  Plano Id  Sugestoes Post"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/planos/{plano_id}/perguntar": {
+   "post": {
+    "tags": [
+     "llm"
+    ],
+    "summary": "Pergunta em linguagem natural",
+    "operationId": "perguntar_planos__plano_id__perguntar_post",
+    "parameters": [
+     {
+      "name": "plano_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Plano Id"
+      }
+     },
+     {
+      "name": "modo",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "enum": [
+        "auto",
+        "llm",
+        "offline"
+       ],
+       "type": "string",
+       "default": "auto",
+       "title": "Modo"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Pergunta"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "additionalProperties": true,
+         "title": "Response Perguntar Planos  Plano Id  Perguntar Post"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "ConfigGA": {
+    "properties": {
+     "geracoes": {
+      "type": "integer",
+      "maximum": 5000.0,
+      "minimum": 1.0,
+      "title": "Geracoes",
+      "description": "Máximo de gerações",
+      "default": 400
+     },
+     "populacao": {
+      "type": "integer",
+      "maximum": 1000.0,
+      "minimum": 10.0,
+      "title": "Populacao",
+      "description": "Tamanho da população",
+      "default": 120
+     },
+     "seed": {
+      "type": "integer",
+      "title": "Seed",
+      "description": "Semente (mesma semente → mesmo resultado)",
+      "default": 42
+     },
+     "crossover": {
+      "type": "string",
+      "enum": [
+       "mix",
+       "ox",
+       "pmx",
+       "erx",
+       "bcrc"
+      ],
+      "title": "Crossover",
+      "default": "mix"
+     },
+     "selecao": {
+      "type": "string",
+      "enum": [
+       "tournament",
+       "roulette",
+       "rank",
+       "truncation"
+      ],
+      "title": "Selecao",
+      "default": "tournament"
+     },
+     "taxa_mutacao": {
+      "type": "number",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Taxa Mutacao",
+      "default": 0.4
+     },
+     "elitismo": {
+      "type": "integer",
+      "maximum": 50.0,
+      "minimum": 0.0,
+      "title": "Elitismo",
+      "default": 2
+     },
+     "sementes_heuristicas": {
+      "type": "boolean",
+      "title": "Sementes Heuristicas",
+      "description": "Inclui soluções heurísticas na população inicial",
+      "default": true
+     },
+     "busca_local": {
+      "type": "boolean",
+      "title": "Busca Local",
+      "description": "GA memético (2-opt/relocate no melhor)",
+      "default": true
+     },
+     "paciencia": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Paciencia",
+      "description": "Para após N gerações sem melhora",
+      "default": 250
+     },
+     "tempo_limite_s": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Tempo Limite S",
+      "description": "Limite de tempo em segundos"
+     }
+    },
+    "type": "object",
+    "title": "ConfigGA"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "type": "array",
+      "title": "Detail"
+     }
+    },
+    "type": "object",
+    "title": "HTTPValidationError"
+   },
+   "PedidoCenario": {
+    "properties": {
+     "seed": {
+      "type": "integer",
+      "title": "Seed",
+      "default": 42
+     },
+     "utilizacao_alvo": {
+      "type": "number",
+      "maximum": 1.2,
+      "exclusiveMinimum": 0.0,
+      "title": "Utilizacao Alvo",
+      "description": "Fração da capacidade da frota ocupada pela demanda",
+      "default": 0.68
+     },
+     "composicao": {
+      "anyOf": [
+       {
+        "additionalProperties": {
+         "type": "integer"
+        },
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Composicao",
+      "description": "Ex.: {\"UBS\": 8, \"UPA\": 4, \"AME\": 3, \"Hospital Dia\": 2, \"CAPS\": 3, \"Domiciliar\": 16}"
+     },
+     "data": {
+      "type": "string",
+      "title": "Data",
+      "default": "2026-10-13"
+     }
+    },
+    "type": "object",
+    "title": "PedidoCenario"
+   },
+   "PedidoComparacao": {
+    "properties": {
+     "cenario": {
+      "anyOf": [
+       {
+        "additionalProperties": true,
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cenario"
+     },
+     "metodos": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Metodos",
+      "description": "Opções: vizinho_mais_proximo, despachante_prioridade, clarke_wright, sweep, simulated_annealing, tsp_base_split, busca_aleatoria, melhoria_local, ortools"
+     },
+     "incluir_ga": {
+      "type": "boolean",
+      "title": "Incluir Ga",
+      "default": true
+     },
+     "ortools_tempo_s": {
+      "type": "integer",
+      "maximum": 120.0,
+      "minimum": 1.0,
+      "title": "Ortools Tempo S",
+      "default": 10
+     }
+    },
+    "type": "object",
+    "title": "PedidoComparacao"
+   },
+   "PedidoOtimizacao": {
+    "properties": {
+     "cenario": {
+      "anyOf": [
+       {
+        "additionalProperties": true,
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cenario",
+      "description": "Cenário no formato de GET /cenarios/padrao. Omitido = cenário padrão."
+     },
+     "config": {
+      "$ref": "#/components/schemas/ConfigGA"
+     },
+     "pesos": {
+      "$ref": "#/components/schemas/PesosFitness"
+     },
+     "incluir_historico": {
+      "type": "boolean",
+      "title": "Incluir Historico",
+      "description": "Devolve a curva de convergência",
+      "default": false
+     }
+    },
+    "type": "object",
+    "title": "PedidoOtimizacao"
+   },
+   "Pergunta": {
+    "properties": {
+     "pergunta": {
+      "type": "string",
+      "minLength": 3,
+      "title": "Pergunta",
+      "examples": [
+       "Qual veículo leva a insulina do PD-05?"
+      ]
+     },
+     "historico": {
+      "items": {
+       "prefixItems": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "string"
+        }
+       ],
+       "type": "array",
+       "maxItems": 2,
+       "minItems": 2
+      },
+      "type": "array",
+      "title": "Historico",
+      "description": "Pares (pergunta, resposta) anteriores"
+     }
+    },
+    "type": "object",
+    "required": [
+     "pergunta"
+    ],
+    "title": "Pergunta"
+   },
+   "PesosFitness": {
+    "properties": {
+     "distancia": {
+      "type": "number",
+      "title": "Distancia",
+      "description": "Peso por km",
+      "default": 1.0
+     },
+     "prioridade": {
+      "type": "number",
+      "title": "Prioridade",
+      "description": "Peso por (peso da prioridade × hora de chegada)",
+      "default": 1.0
+     },
+     "atraso": {
+      "type": "number",
+      "title": "Atraso",
+      "description": "Peso por (peso da prioridade × minuto de atraso)",
+      "default": 1.0
+     },
+     "custo": {
+      "type": "number",
+      "title": "Custo",
+      "description": "Peso por R$ (0 = desligado)",
+      "default": 0.0
+     }
+    },
+    "type": "object",
+    "title": "PesosFitness"
+   },
+   "ValidationError": {
+    "properties": {
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Location"
+     },
+     "msg": {
+      "type": "string",
+      "title": "Message"
+     },
+     "type": {
+      "type": "string",
+      "title": "Error Type"
+     },
+     "input": {
+      "title": "Input"
+     },
+     "ctx": {
+      "type": "object",
+      "title": "Context"
+     }
+    },
+    "type": "object",
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError"
+   }
+  }
+ },
+ "tags": [
+  {
+   "name": "sistema",
+   "description": "Saúde da API e configuração."
+  },
+  {
+   "name": "cenários",
+   "description": "Instâncias do problema (um dia de operação)."
+  },
+  {
+   "name": "otimização",
+   "description": "Algoritmo genético e abordagens de comparação."
+  },
+  {
+   "name": "planos",
+   "description": "Planos de rota gerados (consulta e mapa)."
+  },
+  {
+   "name": "llm",
+   "description": "Produtos da LLM sobre um plano."
+  }
+ ]
+}

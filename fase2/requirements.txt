@@ -1,0 +1,54 @@
+# Tech Challenge — Fase 2 (MedRoute) | dependências testadas com Python 3.11.9
+#
+#   python -m venv .venv
+#   .venv\Scripts\activate                 (Windows)  |  source .venv/bin/activate  (Linux/Mac)
+#   pip install -r requirements.txt
+#   pip install -e . --no-deps             (instala o pacote medroute em modo editável)
+#
+# Alternativa com Poetry 2.x (lê o pyproject.toml):  poetry install --all-extras
+
+# --- Núcleo: dados, otimização e gráficos ---
+numpy==2.4.6
+pandas==3.0.6
+scipy==1.17.1
+# matplotlib fixado em 3.11.0: o 3.11.2 teve a DLL bloqueada pelo Smart App
+# Control do Windows 11 na máquina de desenvolvimento; o 3.11.0 é o mesmo da Fase 1.
+matplotlib==3.11.0
+pillow==12.3.0
+
+# --- Mapas ---
+folium==0.20.0
+branca==0.8.2
+
+# --- LLM (OpenRouter, API compatível com OpenAI) ---
+httpx==0.28.1
+python-dotenv==1.2.4
+
+# --- API REST e painel ---
+fastapi==0.143.0
+uvicorn==0.54.0
+pydantic==2.14.1
+streamlit==1.65.0
+
+# --- Comparativo: solver industrial (opcional) ---
+ortools==9.15.6755
+
+# --- Visualizador ao vivo herdado do código base (opcional) ---
+pygame==2.6.1
+
+# --- Testes ---
+pytest==9.1.1
+pytest-cov==7.1.0
+
+# --- Notebook de demonstração ---
+jupyter==1.1.1
+ipykernel==7.4.0
+nbformat==5.11.1
+nbconvert==7.17.2
+
+# --- Gerador de vídeo e PDF entregável ---
+piper-tts==1.8.0         # narração pt-BR: voz neural local e gratuita (padrão do vídeo)
+edge-tts==7.2.8          # alternativa (o serviço passou a responder 403 em out/2026)
+imageio-ffmpeg==0.6.0    # ffmpeg embutido (não precisa instalar no sistema)
+reportlab==5.0.1
+selenium==4.51.0         # capturas do painel para o vídeo

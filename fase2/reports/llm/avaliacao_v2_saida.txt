@@ -1,0 +1,13 @@
+                 arquivo  nota  cobertura_paradas ordem_correta horarios_inventados ids_inexistentes                                                         requisitos_inventados                           numeros_nao_rastreaveis
+        instrucoes_V1.md 100.0                1.0          True                  []               []                                                                            []                                                []
+        instrucoes_V2.md 100.0                1.0          True                  []               []                                                                            []                                                []
+        instrucoes_V3.md 100.0                1.0          True                  []               []                                                                            []                                                []
+        instrucoes_V4.md 100.0                1.0          True                  []               []                                                                            []                                                []
+        instrucoes_V5.md 100.0                1.0          True                  []               []                                                                            []                                                []
+     relatorio_diario.md 100.0                NaN          None                  []               []                                                                            []                                                []
+    relatorio_semanal.md  94.0                NaN          None                  []               []                                                                            []                             [28,4%, 71 km, 28,4%]
+   sugestoes_melhoria.md  82.0                NaN          None             [08:30]               []                                                                            [] [13,8%, 6,5%, 8,8%, 11,0%, R$ 4,65, 20%, R$ 4,50]
+perguntas_e_respostas.md  80.0                NaN          None                  []               [] [E19 listado como controlado, contagem: 7 entregas com controlado (dados: 6)]                                                []
+
+Nota média: 95.1/100
+gravado: C:\Users\enior\Downloads\Tech_Challenge-main\fase2\reports\llm\avaliacao_v2.md

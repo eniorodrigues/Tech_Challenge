@@ -1,0 +1,206 @@
+[
+ {
+  "arquivo":"instrucoes_V1.md",
+  "nota":98.0,
+  "cobertura_paradas":1.0,
+  "ordem_correta":true,
+  "horarios_citados":1.0,
+  "ids_inexistentes":[
+
+  ],
+  "horarios_inventados":[
+
+  ],
+  "numeros_nao_rastreaveis":[
+   "218.5 kg"
+  ],
+  "requisitos_inventados":[
+
+  ],
+  "observacoes":[
+
+  ]
+ },
+ {
+  "arquivo":"instrucoes_V2.md",
+  "nota":100.0,
+  "cobertura_paradas":1.0,
+  "ordem_correta":true,
+  "horarios_citados":1.0,
+  "ids_inexistentes":[
+
+  ],
+  "horarios_inventados":[
+
+  ],
+  "numeros_nao_rastreaveis":[
+
+  ],
+  "requisitos_inventados":[
+
+  ],
+  "observacoes":[
+
+  ]
+ },
+ {
+  "arquivo":"instrucoes_V3.md",
+  "nota":98.0,
+  "cobertura_paradas":1.0,
+  "ordem_correta":true,
+  "horarios_citados":1.0,
+  "ids_inexistentes":[
+
+  ],
+  "horarios_inventados":[
+
+  ],
+  "numeros_nao_rastreaveis":[
+   "29.47 km"
+  ],
+  "requisitos_inventados":[
+
+  ],
+  "observacoes":[
+
+  ]
+ },
+ {
+  "arquivo":"instrucoes_V4.md",
+  "nota":100.0,
+  "cobertura_paradas":1.0,
+  "ordem_correta":true,
+  "horarios_citados":1.0,
+  "ids_inexistentes":[
+
+  ],
+  "horarios_inventados":[
+
+  ],
+  "numeros_nao_rastreaveis":[
+
+  ],
+  "requisitos_inventados":[
+
+  ],
+  "observacoes":[
+
+  ]
+ },
+ {
+  "arquivo":"instrucoes_V5.md",
+  "nota":100.0,
+  "cobertura_paradas":1.0,
+  "ordem_correta":true,
+  "horarios_citados":1.0,
+  "ids_inexistentes":[
+
+  ],
+  "horarios_inventados":[
+
+  ],
+  "numeros_nao_rastreaveis":[
+
+  ],
+  "requisitos_inventados":[
+
+  ],
+  "observacoes":[
+
+  ]
+ },
+ {
+  "arquivo":"relatorio_diario.md",
+  "nota":100.0,
+  "cobertura_paradas":null,
+  "ordem_correta":null,
+  "horarios_citados":null,
+  "ids_inexistentes":[
+
+  ],
+  "horarios_inventados":[
+
+  ],
+  "numeros_nao_rastreaveis":[
+
+  ],
+  "requisitos_inventados":[
+
+  ],
+  "observacoes":[
+
+  ]
+ },
+ {
+  "arquivo":"relatorio_semanal.md",
+  "nota":94.0,
+  "cobertura_paradas":null,
+  "ordem_correta":null,
+  "horarios_citados":null,
+  "ids_inexistentes":[
+
+  ],
+  "horarios_inventados":[
+
+  ],
+  "numeros_nao_rastreaveis":[
+   "70,9 km",
+   "82,6 km",
+   "28,4%"
+  ],
+  "requisitos_inventados":[
+
+  ],
+  "observacoes":[
+
+  ]
+ },
+ {
+  "arquivo":"sugestoes_melhoria.md",
+  "nota":90.0,
+  "cobertura_paradas":null,
+  "ordem_correta":null,
+  "horarios_citados":null,
+  "ids_inexistentes":[
+
+  ],
+  "horarios_inventados":[
+
+  ],
+  "numeros_nao_rastreaveis":[
+   "13,8%",
+   "6,5%",
+   "8,8%",
+   "11%",
+   "85%"
+  ],
+  "requisitos_inventados":[
+
+  ],
+  "observacoes":[
+
+  ]
+ },
+ {
+  "arquivo":"perguntas_e_respostas.md",
+  "nota":100.0,
+  "cobertura_paradas":null,
+  "ordem_correta":null,
+  "horarios_citados":null,
+  "ids_inexistentes":[
+
+  ],
+  "horarios_inventados":[
+
+  ],
+  "numeros_nao_rastreaveis":[
+
+  ],
+  "requisitos_inventados":[
+
+  ],
+  "observacoes":[
+
+  ]
+ }
+]

@@ -1,0 +1,135 @@
+{
+  "achados": [
+    {
+      "codigo": "ATRASO_CRITICO",
+      "titulo": "Entrega crítica fora do prazo",
+      "evidencia": "E25 (Paciente PD-05 (Jabaquara)) no V4: início previsto 09:03, prazo 09:00 — 2 min de atraso",
+      "severidade": "alta",
+      "dados": {
+        "veiculo": "V4",
+        "entrega": "E25",
+        "atraso_min": 2.5,
+        "requisitos": [
+          "refrigerado"
+        ]
+      }
+    },
+    {
+      "codigo": "CADEIA_FRIA",
+      "titulo": "Concentração de entregas refrigeradas",
+      "evidencia": "6 entregas exigem cadeia fria (6 críticas) e só 2 veículos podem levá-las: V1 (Van Refrigerada 01), V4 (Moto 01 (baú térmico))",
+      "severidade": "alta",
+      "dados": {
+        "entregas_refrigeradas": 6,
+        "criticas_refrigeradas": 6,
+        "veiculos_refrigerados": [
+          "V1",
+          "V4"
+        ]
+      }
+    },
+    {
+      "codigo": "AUTONOMIA_NO_LIMITE",
+      "titulo": "Autonomia quase esgotada",
+      "evidencia": "V4 roda 58.7 de 60 km (98% da autonomia) — pouca margem para desvios",
+      "severidade": "media",
+      "dados": {
+        "veiculo": "V4",
+        "uso_autonomia_pct": 97.8
+      }
+    },
+    {
+      "codigo": "CARGA_NO_LIMITE",
+      "titulo": "Capacidade de carga quase esgotada",
+      "evidencia": "V4 leva 24 de 25 kg (96%)",
+      "severidade": "media",
+      "dados": {
+        "veiculo": "V4",
+        "ocupacao_pct": 96.0
+      }
+    },
+    {
+      "codigo": "FOLGA_TURNO",
+      "titulo": "Folga de jornada na frota",
+      "evidencia": "último retorno às 12:43 (turno vai até 15:00); 20.9 h de jornada livre somando os veículos",
+      "severidade": "baixa",
+      "dados": {
+        "folga_horas": 20.9,
+        "ultimo_retorno": "12:43"
+      }
+    },
+    {
+      "codigo": "EMISSOES",
+      "titulo": "Participação do veículo elétrico",
+      "evidencia": "40.5 de 253.5 km (16%) rodados pela van elétrica; emissão total 40.1 kg de CO2",
+      "severidade": "baixa",
+      "dados": {
+        "km_eletrico": 40.5,
+        "co2_kg": 40.1
+      }
+    },
+    {
+      "codigo": "GANHO_VS_ATUAL",
+      "titulo": "Ganho sobre o processo atual",
+      "evidencia": "46.0 km (15%) e R$ 399.39 a menos; 4.3 h de rota a menos; 14 atrasos evitados",
+      "severidade": "baixa",
+      "dados": {
+        "km_economizados": 46.0,
+        "km_economizados_pct": 15.4,
+        "reais_economizados": 399.39,
+        "reais_economizados_pct": 25.3,
+        "horas_economizadas": 4.35,
+        "co2_evitado_kg": 18.3,
+        "pontos_sla": 38.9,
+        "atrasos_evitados": 14,
+        "violacoes_evitadas": 0
+      }
+    }
+  ],
+  "simulacoes": [
+    {
+      "nome": "bau_termico_moto02",
+      "descricao": "Instalar baú térmico também na Moto 02 (V5)",
+      "antes": {
+        "km": 253.5,
+        "custo_rs": 1178.08,
+        "no_prazo_pct": 97.2,
+        "criticas_no_prazo_pct": 87.5,
+        "atrasos": 1,
+        "violacoes": 0,
+        "ultimo_retorno": "12:43"
+      },
+      "depois": {
+        "km": 218.6,
+        "custo_rs": 1100.91,
+        "no_prazo_pct": 100.0,
+        "criticas_no_prazo_pct": 100.0,
+        "atrasos": 0,
+        "violacoes": 0,
+        "ultimo_retorno": "12:40"
+      }
+    },
+    {
+      "nome": "sem_van_eletrica",
+      "descricao": "Operar sem a Van Elétrica 03 (V3) — teste de redução de frota",
+      "antes": {
+        "km": 253.5,
+        "custo_rs": 1178.08,
+        "no_prazo_pct": 97.2,
+        "criticas_no_prazo_pct": 87.5,
+        "atrasos": 1,
+        "violacoes": 0,
+        "ultimo_retorno": "12:43"
+      },
+      "depois": {
+        "km": 275.8,
+        "custo_rs": 1308.0,
+        "no_prazo_pct": 91.7,
+        "criticas_no_prazo_pct": 87.5,
+        "atrasos": 3,
+        "violacoes": 1,
+        "ultimo_retorno": "13:23"
+      }
+    }
+  ]
+}

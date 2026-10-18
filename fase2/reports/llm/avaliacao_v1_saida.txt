@@ -1,0 +1,13 @@
+                 arquivo  nota  cobertura_paradas ordem_correta horarios_inventados ids_inexistentes         requisitos_inventados numeros_nao_rastreaveis
+        instrucoes_V1.md 100.0                1.0          True                  []               []                            []                      []
+        instrucoes_V2.md  98.0                1.0          True                  []               []                            []                [214 kg]
+        instrucoes_V3.md  98.0                1.0          True                  []               []                            []              [29.47 km]
+        instrucoes_V4.md 100.0                1.0          True                  []               []                            []                      []
+        instrucoes_V5.md  90.0                1.0          True                  []               [] [E22 tratado como controlado]                      []
+     relatorio_diario.md 100.0                NaN          None                  []               []                            []                      []
+    relatorio_semanal.md  98.0                NaN          None                  []               []                            []                   [25%]
+   sugestoes_melhoria.md  98.0                NaN          None                  []               []                            []                [30 min]
+perguntas_e_respostas.md 100.0                NaN          None                  []               []                            []                      []
+
+Nota média: 98.0/100
+gravado: C:\Users\enior\Downloads\Tech_Challenge-main\fase2\reports\llm\avaliacao_v1.md

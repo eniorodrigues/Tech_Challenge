@@ -1,0 +1,23 @@
+# Segredos — a chave da OpenRouter fica só na máquina local.
+.env
+
+# Ambientes virtuais e caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+
+# Caches de execução (recriados automaticamente)
+.cache/
+scripts/video/_cache/
+
+# Vídeo final: binário grande, vive no YouTube (o .srt fica versionado).
+video/*.mp4
+
+# Configuração local de ferramentas
+.claude/

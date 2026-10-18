@@ -1,3 +1,5 @@
+> **Fase 2 (Projeto 2 — otimização de rotas de medicamentos e insumos com algoritmo genético + LLM):** veja [`fase2/README.md`](fase2/README.md). Tudo da Fase 2 fica na pasta `fase2/`, com ambiente, testes e documentação próprios.
+
 # Tech Challenge — Fase 1
 ## Sistema inteligente de suporte ao diagnóstico em saúde da mulher
 

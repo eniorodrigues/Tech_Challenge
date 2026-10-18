@@ -1,0 +1,37 @@
+veiculo,veiculo_nome,seq,entrega,destino,prioridade,chegada,inicio,prazo,atraso_min,carga_kg,requisitos,itens
+V1,Van Refrigerada 01,1,E02,UBS Brooklin,CRÍTICA,07:25,07:25,09:00,0.0,63.5,refrigerado,"Vacinas e imunobiológicos (cadeia fria) · Luvas, seringas e gaze"
+V1,Van Refrigerada 01,2,E01,UBS Água Branca,CRÍTICA,08:15,08:15,09:00,0.0,57.0,refrigerado,Vacinas e imunobiológicos (cadeia fria) · Kits de coleta laboratorial
+V1,Van Refrigerada 01,3,E11,UPA Vila Guilherme,CRÍTICA,08:58,08:58,09:00,0.0,98.0,refrigerado,"Alteplase — trombolítico (cadeia fria) · Luvas, seringas e gaze"
+V1,Van Refrigerada 01,4,E33,Paciente PD-13 (Vila Guilherme),ALTA,09:14,09:14,11:00,0.0,4.0,—,"Curativos especiais (hidrocoloide, alginato)"
+V1,Van Refrigerada 01,5,E29,Paciente PD-09 (Sé),NORMAL,09:50,09:50,11:00,0.0,8.0,—,Fraldas geriátricas e material de higiene
+V1,Van Refrigerada 01,6,E24,Paciente PD-04 (Perdizes),ALTA,10:24,10:24,11:00,0.0,8.5,controlado,Morfina e fentanil (controlados — Portaria 344/98)
+V1,Van Refrigerada 01,7,E10,UPA Lapa,ALTA,10:47,10:47,11:00,0.0,63.5,controlado,Morfina e fentanil (controlados — Portaria 344/98)
+V1,Van Refrigerada 01,8,E30,Paciente PD-10 (Lapa),NORMAL,11:03,11:03,12:00,0.0,9.0,—,Fraldas geriátricas e material de higiene
+V2,Van 02 (cofre),1,E09,UPA Moema,ALTA,07:18,07:18,11:00,0.0,90.0,controlado,"Morfina e fentanil (controlados — Portaria 344/98) · Soro fisiológico 0,9% (caixas)"
+V2,Van 02 (cofre),2,E34,Paciente PD-14 (Cursino),CRÍTICA,07:53,07:53,09:00,0.0,2.0,—,Ceftriaxona IV para terapia domiciliar
+V2,Van 02 (cofre),3,E05,UBS Saúde,ALTA,08:17,08:17,11:00,0.0,56.0,—,"Curativos especiais (hidrocoloide, alginato)"
+V2,Van 02 (cofre),4,E15,AME Vila Mariana,NORMAL,08:41,08:41,12:00,0.0,29.0,—,EPIs — máscaras e aventais
+V2,Van 02 (cofre),5,E23,Paciente PD-03 (Ipiranga),ALTA,09:03,09:03,11:00,0.0,6.0,controlado,Morfina e fentanil (controlados — Portaria 344/98)
+V2,Van 02 (cofre),6,E20,CAPS Vila Prudente,ALTA,09:29,09:29,11:00,0.0,8.5,controlado,Clonazepam e haloperidol (controlados — Portaria 344/98)
+V2,Van 02 (cofre),7,E18,CAPS Carrão,ALTA,09:57,09:57,11:00,0.0,8.0,controlado,Clonazepam e haloperidol (controlados — Portaria 344/98) · EPIs — máscaras e aventais
+V2,Van 02 (cofre),8,E21,Paciente PD-01 (Tatuapé),ALTA,10:18,10:18,11:00,0.0,9.0,—,"Curativos especiais (hidrocoloide, alginato)"
+V2,Van 02 (cofre),9,E35,Paciente PD-15 (Tatuapé),ALTA,10:35,10:35,11:00,0.0,2.0,—,"Curativos especiais (hidrocoloide, alginato)"
+V2,Van 02 (cofre),10,E04,UBS Tatuapé,NORMAL,10:52,10:52,12:00,0.0,64.0,—,EPIs — máscaras e aventais · Kits de coleta laboratorial
+V2,Van 02 (cofre),11,E13,AME Vila Maria,NORMAL,11:15,11:15,12:00,0.0,75.0,—,Kits de coleta laboratorial
+V2,Van 02 (cofre),12,E06,UBS Mooca,NORMAL,11:47,11:47,15:00,0.0,75.0,—,"Kits de coleta laboratorial · Soro fisiológico 0,9% (caixas)"
+V2,Van 02 (cofre),13,E17,Hospital Dia Cambuci,NORMAL,12:09,12:09,15:00,0.0,40.0,—,EPIs — máscaras e aventais
+V3,Van Elétrica 03,1,E07,UBS Higienópolis,ALTA,07:07,07:07,11:00,0.0,47.5,—,"Curativos especiais (hidrocoloide, alginato)"
+V3,Van Elétrica 03,2,E12,UPA Perdizes,NORMAL,07:27,07:27,15:00,0.0,79.5,—,"Soro fisiológico 0,9% (caixas)"
+V3,Van Elétrica 03,3,E08,UBS Pompeia,NORMAL,07:46,07:46,15:00,0.0,36.0,—,Saneantes e material de limpeza hospitalar
+V3,Van Elétrica 03,4,E16,Hospital Dia Freguesia do Ó,ALTA,08:11,08:11,11:00,0.0,62.0,—,Dieta enteral · EPIs — máscaras e aventais
+V3,Van Elétrica 03,5,E14,AME Vila Leopoldina,ALTA,08:44,08:44,11:00,0.0,59.5,—,"Curativos especiais (hidrocoloide, alginato)"
+V3,Van Elétrica 03,6,E26,Paciente PD-06 (Vila Sônia),ALTA,09:24,09:24,11:00,0.0,3.0,—,"Curativos especiais (hidrocoloide, alginato)"
+V3,Van Elétrica 03,7,E03,UBS Morumbi,ALTA,09:44,09:44,11:00,0.0,46.5,—,"Curativos especiais (hidrocoloide, alginato)"
+V3,Van Elétrica 03,8,E32,Paciente PD-12 (Morumbi),NORMAL,09:58,10:00,13:00,0.0,3.5,—,Fraldas geriátricas e material de higiene
+V4,Moto 01 (baú térmico),1,E28,Paciente PD-08 (Lapa),CRÍTICA,07:15,07:15,09:00,0.0,3.5,refrigerado,Insulina NPH e regular (cadeia fria)
+V4,Moto 01 (baú térmico),2,E31,Paciente PD-11 (Tatuapé),CRÍTICA,08:08,08:08,09:00,0.0,8.5,refrigerado,Insulina NPH e regular (cadeia fria)
+V4,Moto 01 (baú térmico),3,E25,Paciente PD-05 (Jabaquara),CRÍTICA,09:03,09:03,09:00,2.5,5.5,refrigerado,Insulina NPH e regular (cadeia fria)
+V4,Moto 01 (baú térmico),4,E27,Paciente PD-07 (Campo Belo),NORMAL,09:29,09:29,12:00,0.0,6.5,—,Fraldas geriátricas e material de higiene
+V5,Moto 02,1,E22,Paciente PD-02 (Rio Pequeno),CRÍTICA,07:25,07:25,09:00,0.0,5.0,—,Ceftriaxona IV para terapia domiciliar
+V5,Moto 02,2,E36,Paciente PD-16 (Jaguaré),NORMAL,07:47,08:00,11:00,0.0,6.0,—,Fraldas geriátricas e material de higiene
+V5,Moto 02,3,E19,CAPS Barra Funda,ALTA,08:39,08:39,11:00,0.0,7.5,—,"Anti-hipertensivos e hipoglicemiantes de uso contínuo · Luvas, seringas e gaze"

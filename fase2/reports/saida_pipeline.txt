@@ -1,0 +1,126 @@
+========================================================================
+MEDROUTE — Otimização de rotas de medicamentos e insumos (Tech Challenge Fase 2)
+========================================================================
+
+========================================================================
+1. CENÁRIO DO DIA
+========================================================================
+Distribuição diária — 2026-10-13
+  36 entregas (8 críticas), 1156 kg, 5 veículos — dados sintéticos sobre a geografia de São Paulo.
+  Prioridades: 8 críticas (prazo 2 h), 16 altas (prazo 4 h), 12 normais
+  Requisitos: 6 com cadeia fria, 6 com medicamento controlado
+  Carga total: 1156 kg  |  capacidade da frota: 1700 kg (68%)
+  Frota:
+    V1 Van Refrigerada 01         450 kg  autonomia  140 km  22 km/h  R$ 3.10/km  recursos: controlado, refrigerado
+    V2 Van 02 (cofre)             650 kg  autonomia  160 km  22 km/h  R$ 2.40/km  recursos: controlado
+    V3 Van Elétrica 03            550 kg  autonomia   70 km  22 km/h  R$ 0.90/km  recursos: —
+    V4 Moto 01 (baú térmico)       25 kg  autonomia   60 km  28 km/h  R$ 0.45/km  recursos: refrigerado
+    V5 Moto 02                     25 kg  autonomia   60 km  28 km/h  R$ 0.45/km  recursos: —
+  Validação da instância: OK
+
+========================================================================
+2. OTIMIZAÇÃO COM ALGORITMO GENÉTICO
+========================================================================
+  População 120 · até 500 gerações · crossover mix · mutação mix (40%) · seleção tournament · elitismo 2 · semente 42
+  geração    0 | melhor fitness     3718.5 |  292.0 km | viável: não | diversidade 0.99 |   0.1s
+  geração    1 | melhor fitness     3718.5 |  292.0 km | viável: não | diversidade 1.00 |   0.1s
+  geração    5 | melhor fitness     1373.4 |  264.0 km | viável: sim | diversidade 1.00 |   0.2s
+  geração   10 | melhor fitness      798.6 |  282.9 km | viável: sim | diversidade 1.00 |   0.2s
+  geração   25 | melhor fitness      536.5 |  283.0 km | viável: sim | diversidade 0.99 |   0.4s
+  geração   50 | melhor fitness      529.7 |  273.9 km | viável: sim | diversidade 0.99 |   0.7s
+  geração  100 | melhor fitness      502.3 |  253.5 km | viável: sim | diversidade 1.00 |   1.3s
+  geração  200 | melhor fitness      502.3 |  253.5 km | viável: sim | diversidade 0.98 |   2.4s
+  geração  300 | melhor fitness      502.3 |  253.5 km | viável: sim | diversidade 0.98 |   4.4s
+  Parada: sem melhora por 250 gerações (351 gerações, 36571 avaliações, 5.3 s)
+
+MedRoute (algoritmo genético) — Distribuição diária — 2026-10-13
+  36 entregas | 5/5 veículos | 253.5 km | R$ 1,178.08 | 19.1 h de rota | CO2 40.1 kg
+  No prazo: 97.2% {'CRÍTICA': 87.5, 'ALTA': 100.0, 'NORMAL': 100.0} | atrasos: 1 (críticos: 1) | violações: 0 | fitness 502.3
+  V1 Van Refrigerada 01: 8 paradas, 59.9/140 km, 312/450 kg, volta 11:37
+      E02 → E01 → E11 → E33 → E29 → E24 → E10 → E30
+  V2 Van 02 (cofre): 13 paradas, 63.3/160 km, 464/650 kg, volta 12:43
+      E09 → E34 → E05 → E15 → E23 → E20 → E18 → E21 → E35 → E04 → E13 → E06 → E17
+  V3 Van Elétrica 03: 8 paradas, 40.5/70 km, 338/550 kg, volta 10:41
+      E07 → E12 → E08 → E16 → E14 → E26 → E03 → E32
+  V4 Moto 01 (baú térmico): 4 paradas, 58.7/60 km, 24/25 kg, volta 10:06
+      E28 → E31 → E25 → E27
+  V5 Moto 02: 3 paradas, 31.1/60 km, 18/25 kg, volta 08:59
+      E22 → E36 → E19
+
+========================================================================
+3. COMPARATIVO COM OUTRAS ABORDAGENS (mesmo cenário)
+========================================================================
+  Abordagem                                     km        R$  no prazo  críticas violações    fitness   tempo
+  MedRoute (algoritmo genético)              253.5   1178.08     97.2%     87.5%         0      502.3   5.33s
+  Simulated Annealing                        264.4   1182.88     94.4%     87.5%         0      517.4   1.93s
+  Google OR-Tools (GLS)                      225.1   1123.90     94.4%     87.5%         0      517.9  20.11s
+  Despachante + busca local                  276.1   1238.26     97.2%     87.5%         0      888.1   0.12s
+  Sweep + 2-opt                              238.7   1208.00     80.6%     87.5%         2     6638.6   0.20s
+  Despachante (prioridade + vizinho)         299.5   1577.47     58.3%     37.5%         0    10475.2   0.00s
+  Vizinho mais próximo                       195.5   1207.82     52.8%     25.0%         0    10735.8   0.00s
+  Clarke & Wright (economias)                210.2   1199.45     66.7%     75.0%         2    13561.3   0.01s
+  TSP do código base + fatiamento            202.3   1134.31     63.9%     12.5%         5    17048.3   1.49s
+  Busca aleatória                            445.2   2086.56     50.0%     37.5%         7    21259.5   1.89s
+
+  -> MedRoute vs processo atual: 46.0 km (15%) e R$ 399.39 a menos; 4.3 h de rota a menos; no prazo +38.9 p.p.; 18.3 kg de CO2 evitados
+
+========================================================================
+4. VISUALIZAÇÕES
+========================================================================
+  Mapa de fundo: OpenStreetMap (cache local)
+  reports\maps\mapa_rotas_ga.html
+  reports\maps\mapa_rotas_processo_atual.html
+  reports\figures\01_mapa_rotas_ga.png
+  reports\figures\02_mapa_rotas_processo_atual.png
+  reports\figures\03_mapa_por_veiculo.png
+  reports\figures\04_convergencia_ga.png
+  reports\figures\05_linha_do_tempo_ga.png
+  reports\figures\06_linha_do_tempo_processo_atual.png
+  reports\figures\07_ocupacao_frota.png
+  reports\figures\08_comparativo_dia.png
+
+========================================================================
+5. SEMANA OPERACIONAL SIMULADA (relatório semanal)
+========================================================================
+  roteirizando Segunda-feira...
+  roteirizando Terça-feira...
+  roteirizando Quarta-feira...
+  roteirizando Quinta-feira...
+  roteirizando Sexta-feira...
+    dia  entregas  km_atual  km_ga  km_economia_pct  sla_atual  sla_ga  violacoes_atual  violacoes_ga
+Segunda        38     277.5  206.6             25.5       60.5    97.4                0             0
+  Terça        34     284.7  202.1             29.0       52.9    97.1                0             0
+ Quarta        33     245.9  182.5             25.8       48.5   100.0                0             0
+ Quinta        35     315.9  244.5             22.6       60.0   100.0                0             0
+  Sexta        30     209.4  179.0             14.5       66.7   100.0                0             0
+
+  Semana: 319 km (24%), R$ 1845.24, 18.8 h e 104.4 kg de CO2 economizados; no prazo 57.6% -> 98.8%
+
+========================================================================
+6. LLM — INSTRUÇÕES, RELATÓRIOS, SUGESTÕES E PERGUNTAS
+========================================================================
+  Cliente: OpenRouterClient(models=['nvidia/nemotron-3-ultra-550b-a55b:free', 'nvidia/nemotron-3-super-120b-a12b:free', 'openrouter/free'], key=sim)
+  instrucoes_V1.md                   origem=llm      fidelidade=100.0/100 modelo=nvidia/nemotron-3-ultra-550b-a55b:free
+  instrucoes_V2.md                   origem=llm      fidelidade=100.0/100 modelo=nvidia/nemotron-3-ultra-550b-a55b:free
+  instrucoes_V3.md                   origem=llm      fidelidade=100.0/100 modelo=nvidia/nemotron-3-ultra-550b-a55b:free
+  instrucoes_V4.md                   origem=llm      fidelidade=100.0/100 modelo=nvidia/nemotron-3-ultra-550b-a55b:free
+  instrucoes_V5.md                   origem=llm      fidelidade=100.0/100 modelo=nvidia/nemotron-3-ultra-550b-a55b:free
+  relatorio_diario.md                origem=llm      fidelidade=100.0/100 modelo=nvidia/nemotron-3-ultra-550b-a55b:free
+  relatorio_semanal.md               origem=llm      fidelidade= 94.0/100 modelo=nvidia/nemotron-3-ultra-550b-a55b:free
+  sugestoes_melhoria.md              origem=llm      fidelidade= 82.0/100 modelo=nvidia/nemotron-3-ultra-550b-a55b:free
+  P: Qual veículo leva a insulina do paciente PD-05 e a que horas chega?
+     R (llm): A insulina do paciente PD-05 (Jabaquara) é transportada pela **Moto 01 (baú térmico) – V4**, na **parada de ordem 3**. A chegada prevista é **09:03**,
+  P: Alguma entrega crítica corre risco de atraso? O que fazer?
+     R (llm): Sim. A entrega **E25** (Paciente PD-05, Jabaquara – insulina cadeia fria, prioridade CRÍTICA) na **Moto 01 (V4), ordem 3**, tem **chegada prevista 09:
+  P: Quais entregas de medicamentos controlados existem hoje e em quais veículos?
+     R (llm): Há **7 entregas com requisito "controlado" (Portaria 344/98)** distribuídas em **2 veículos**:
+  P: Qual é o telefone do paciente PD-08?
+     R (llm): Essa informação não está disponível no plano do dia. Os dados contêm apenas ID, endereço, bairro, prioridade, janela, horários, itens e requisitos da 
+
+========================================================================
+PIPELINE CONCLUÍDO em 323 s
+========================================================================
+  Saídas em fase2/reports/ (figuras, mapas, CSVs, planos JSON e textos da LLM).
+  Painel interativo:  streamlit run app/dashboard.py
+  API REST:           uvicorn medroute.api.app:app --reload  (docs em /docs)
+exit=0

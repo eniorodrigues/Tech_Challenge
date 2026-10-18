@@ -1,0 +1,22 @@
+Recriando o plano do dia (GA, semente 42)...
+
+========================================================================
+6. LLM — INSTRUÇÕES, RELATÓRIOS, SUGESTÕES E PERGUNTAS
+========================================================================
+  Cliente: OpenRouterClient(models=['nvidia/nemotron-3-ultra-550b-a55b:free', 'nvidia/nemotron-3-super-120b-a12b:free', 'openrouter/free'], key=sim)
+  instrucoes_V1.md                   origem=llm      fidelidade= 98.0/100 modelo=nvidia/nemotron-3-ultra-550b-a55b:free
+  instrucoes_V2.md                   origem=cache    fidelidade=100.0/100 modelo=nvidia/nemotron-3-ultra-550b-a55b:free
+  instrucoes_V3.md                   origem=cache    fidelidade= 98.0/100 modelo=nvidia/nemotron-3-ultra-550b-a55b:free
+  instrucoes_V4.md                   origem=cache    fidelidade=100.0/100 modelo=nvidia/nemotron-3-ultra-550b-a55b:free
+  instrucoes_V5.md                   origem=cache    fidelidade=100.0/100 modelo=nvidia/nemotron-3-ultra-550b-a55b:free
+  relatorio_diario.md                origem=cache    fidelidade=100.0/100 modelo=nvidia/nemotron-3-ultra-550b-a55b:free
+  relatorio_semanal.md               origem=cache    fidelidade= 94.0/100 modelo=nvidia/nemotron-3-ultra-550b-a55b:free
+  sugestoes_melhoria.md              origem=cache    fidelidade= 90.0/100 modelo=nvidia/nemotron-3-ultra-550b-a55b:free
+  P: Qual veículo leva a insulina do paciente PD-05 e a que horas chega?
+     R (cache): A insulina do paciente PD-05 (entrega **E25**) é transportada pela **Moto 01 (baú térmico) — V4**, na **3ª parada** da rota.  
+  P: Alguma entrega crítica corre risco de atraso? O que fazer?
+     R (cache): Sim. A entrega **E25** (Paciente PD-05, Jabaquara) — **CRÍTICA**, **refrigerada** (insulina) — na **Moto 01 (V4), 3ª parada**, tem **chegada prevista 
+  P: Quais entregas de medicamentos controlados existem hoje e em quais veículos?
+     R (cache): Há **6 entregas com requisito "controlado"** (Portaria 344/98), distribuídas em **2 veículos**:
+  P: Qual é o telefone do paciente PD-08?
+     R (cache): Essa informação não está disponível no plano do dia.

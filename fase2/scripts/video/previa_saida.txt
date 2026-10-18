@@ -1,0 +1,72 @@
+========================================================================
+GERADOR DE VÍDEO — Tech Challenge Fase 2 (MedRoute)
+========================================================================
+Blocos: 12 · cenas: 33 · palavras: 2054 · voz: pt-BR-AntonioNeural · 1920x1080 @ 30 fps
+
+[1/4] Insumos reais (terminal, telas, evolução do GA)
+  [rodando] python main.py ...
+  [ok] python main.py (125 linhas, 118s)
+  [rodando] python -m pytest -v ...
+  [ok] python -m pytest -v (145 linhas, 126s)
+  [cache] telas do painel, da API e do mapa
+  [cache] 20 quadros da evolução
+
+Bloco 1 · Abertura
+  titulo    b01c01_abertura
+  figura    b01c02_visao
+
+Bloco 2 · O problema
+  tela      b02c01_cenario
+  titulo    b02c02_restricoes
+
+Bloco 3 · Ponto de partida: o código base
+  codigo    b03c01_codigo_base
+  titulo    b03c02_impacto_base
+
+Bloco 4 · Representação e função fitness
+  figura    b04c01_cromossomo
+  codigo    b04c02_fitness
+
+Bloco 5 · Operadores genéticos
+  figura    b05c01_ciclo
+  codigo    b05c02_bcrc
+  codigo    b05c03_mutacoes
+
+Bloco 6 · O algoritmo genético em execução
+  terminal  b06c01_terminal
+  evolucao  b06c02_evolucao
+  figura    b06c03_convergencia
+
+Bloco 7 · As rotas otimizadas
+  tela      b07c01_painel
+  figura    b07c02_gantt
+  figura    b07c03_ocupacao
+
+Bloco 8 · Comparativo com outras abordagens
+  figura    b08c01_atual
+  figura    b08c02_comparativo
+  figura    b08c03_ablacao
+  figura    b08c04_escala
+
+Bloco 9 · Integração com LLM
+  figura    b09c01_fluxo
+  documento b09c02_instrucoes
+  tela      b09c03_relatorio
+  documento b09c04_sugestoes
+  chat      b09c05_chat
+  titulo    b09c06_avaliacao
+
+Bloco 10 · Semana operacional
+  figura    b10c01_semana
+
+Bloco 11 · Engenharia
+  tela      b11c01_api
+  terminal  b11c02_testes
+  arvore    b11c03_arvore
+
+Bloco 12 · Encerramento
+  titulo    b12c01_resultados
+  titulo    b12c02_proximos
+
+prévia em C:\Users\enior\Downloads\Tech_Challenge-main\fase2\scripts\video\_cache\previa
+exit=0

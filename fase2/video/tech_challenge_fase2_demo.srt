@@ -1,0 +1,872 @@
+1
+00:00:00,000 --> 00:00:00,659
+Olá!
+
+2
+00:00:00,679 --> 00:00:04,438
+Eu sou o Enio Rodrigues, e este é o Tech
+Challenge da Fase dois.
+
+3
+00:00:04,458 --> 00:00:08,426
+Escolhi o projeto dois: distribuir
+medicamentos e insumos de um hospital
+
+4
+00:00:08,446 --> 00:00:13,024
+universitário para as unidades de saúde e para
+pacientes em atendimento domiciliar.
+
+5
+00:00:13,044 --> 00:00:17,953
+A solução combina um algoritmo genético, que
+planeja as rotas, com um modelo de linguagem,
+
+6
+00:00:17,973 --> 00:00:22,300
+que transforma essas rotas em instruções,
+relatórios e respostas para a equipe.
+
+7
+00:00:22,600 --> 00:00:25,186
+Tudo está num pacote Python chamado Med Route.
+
+8
+00:00:25,206 --> 00:00:29,302
+A entrada é o cenário do dia, com as regras de
+negócio e as distâncias.
+
+9
+00:00:29,322 --> 00:00:34,498
+A otimização tem a função fitness, o algoritmo
+genético e as abordagens de comparação.
+
+10
+00:00:34,518 --> 00:00:39,794
+Na saída, um plano com indicadores, mapas, a
+integração com a LLM pela OpenRouter, e as
+
+11
+00:00:39,814 --> 00:00:44,603
+interfaces: linha de comando, API REST, um
+painel em Streamlit, um notebook e o
+
+12
+00:00:44,623 --> 00:00:47,240
+visualizador pygame herdado do código base.
+
+13
+00:00:47,990 --> 00:00:52,573
+O cenário é sintético e reprodutível, sobre a
+geografia real de São Paulo.
+
+14
+00:00:52,593 --> 00:00:58,385
+São trinta e seis entregas: UBS, UPA, AME,
+CAPS, Hospital Dia e dezesseis pacientes em
+
+15
+00:00:58,405 --> 00:01:00,683
+casa, identificados só por código.
+
+16
+00:01:00,703 --> 00:01:03,173
+Somam mil cento e cinquenta e seis quilos.
+
+17
+00:01:03,193 --> 00:01:07,870
+Oito entregas são críticas, dezesseis são de
+prioridade alta e doze são normais.
+
+18
+00:01:07,890 --> 00:01:12,348
+Seis exigem cadeia fria, e seis são
+medicamentos controlados da Portaria trezentos
+
+19
+00:01:12,368 --> 00:01:13,460
+e quarenta e quatro.
+
+20
+00:01:13,760 --> 00:01:18,554
+A frota tem cinco veículos diferentes: uma van
+refrigerada, uma van com cofre, uma van
+
+21
+00:01:18,574 --> 00:01:23,591
+elétrica com setenta quilômetros de autonomia
+e duas motos que levam vinte e cinco quilos.
+
+22
+00:01:23,611 --> 00:01:26,778
+Entrega crítica tem prazo de duas horas; alta,
+de quatro.
+
+23
+00:01:26,798 --> 00:01:31,950
+Cadeia fria só vai nos veículos V1 e V4, e
+controlados só em V1 e V2.
+
+24
+00:01:31,970 --> 00:01:34,940
+Ainda há janelas de recebimento e jornada de
+oito horas.
+
+25
+00:01:34,960 --> 00:01:39,789
+A tensão está aí: oito críticas espalhadas
+pela cidade, duas horas de prazo, e só dois
+
+26
+00:01:39,809 --> 00:01:41,050
+veículos refrigerados.
+
+27
+00:01:41,800 --> 00:01:44,537
+O ponto de partida foi o código base
+fornecido.
+
+28
+00:01:44,557 --> 00:01:49,292
+Ele resolve um TSP: um único caixeiro,
+distância em pixels e nenhuma restrição.
+
+29
+00:01:49,312 --> 00:01:54,125
+E tem um bug importante, na linha cento e
+vinte e dois: o crossover recebe o mesmo pai
+
+30
+00:01:54,145 --> 00:01:54,743
+duas vezes.
+
+31
+00:01:54,763 --> 00:01:57,767
+O filho sai cópia do pai, e não existe
+recombinação.
+
+32
+00:01:57,787 --> 00:02:00,153
+A linha correta está comentada logo acima.
+
+33
+00:02:00,173 --> 00:02:04,682
+Além disso, a mutação só troca vizinhos, a
+população inicial é só aleatória, e o
+
+34
+00:02:04,702 --> 00:02:07,590
+visualizador usa uma função que saiu do
+Matplotlib.
+
+35
+00:02:07,890 --> 00:02:12,931
+Medi o efeito: só corrigir o crossover leva o
+TSP do código base de duzentos e sessenta e
+
+36
+00:02:12,951 --> 00:02:17,083
+sete para duzentos e vinte e um quilômetros,
+dezessete por cento a menos.
+
+37
+00:02:17,103 --> 00:02:22,236
+Mas fatiar essa rota única entre os veículos
+dá sete violações em média, e só trinta e um
+
+38
+00:02:22,256 --> 00:02:24,089
+por cento das críticas no prazo.
+
+39
+00:02:24,109 --> 00:02:29,190
+Conclusão: era preciso modelar um problema de
+roteamento de veículos com restrições, o VRP.
+
+40
+00:02:29,940 --> 00:02:35,143
+A representação genética é uma permutação das
+trinta e seis entregas, intercalada com quatro
+
+41
+00:02:35,163 --> 00:02:35,824
+separadores.
+
+42
+00:02:35,844 --> 00:02:38,546
+Cada trecho entre separadores é a rota de um
+veículo.
+
+43
+00:02:38,566 --> 00:02:41,919
+Com um veículo só, é exatamente o cromossomo
+do código base.
+
+44
+00:02:41,939 --> 00:02:46,752
+Toda permutação é uma solução completa, os
+operadores de permutação continuam valendo, e
+
+45
+00:02:46,772 --> 00:02:51,110
+o algoritmo decide quantas entregas cada
+veículo faz só movendo os separadores.
+
+46
+00:02:51,410 --> 00:02:53,288
+A fitness é um custo a minimizar.
+
+47
+00:02:53,308 --> 00:02:58,393
+Ela soma os quilômetros rodados; o peso da
+prioridade vezes a hora de chegada, com peso
+
+48
+00:02:58,413 --> 00:03:03,498
+dez para crítica, três para alta e um para
+normal; o peso vezes os minutos de atraso em
+
+49
+00:03:03,518 --> 00:03:08,075
+relação ao prazo; e as penalidades de
+capacidade, autonomia, compatibilidade e
+
+50
+00:03:08,095 --> 00:03:12,242
+jornada, com um custo fixo alto mais uma parte
+proporcional ao excesso.
+
+51
+00:03:12,262 --> 00:03:17,026
+Existem uma versão rápida e uma detalhada da
+mesma conta, e um teste garante que as duas
+
+52
+00:03:17,046 --> 00:03:17,970
+sempre concordam.
+
+53
+00:03:18,720 --> 00:03:23,466
+O ciclo evolutivo começa com indivíduos
+aleatórios e algumas soluções heurísticas.
+
+54
+00:03:23,486 --> 00:03:29,404
+A seleção é por torneio, e o crossover é
+sorteado entre OX, PMX, ERX e BCRC.
+
+55
+00:03:29,424 --> 00:03:34,403
+As mutações são troca, inversão, inserção,
+embaralhamento, prioridade e reparo.
+
+56
+00:03:34,423 --> 00:03:38,997
+Há elitismo, bloqueio de duplicatas e
+imigrantes quando a população estagna, e uma
+
+57
+00:03:39,017 --> 00:03:41,930
+busca local dois opt e relocate no melhor
+indivíduo.
+
+58
+00:03:42,230 --> 00:03:46,662
+O operador mais importante é o BCRC, um
+crossover feito para roteamento.
+
+59
+00:03:46,682 --> 00:03:51,638
+Ele herda as rotas do primeiro pai, retira as
+entregas de uma rota sorteada do segundo pai e
+
+60
+00:03:51,658 --> 00:03:56,072
+reinsere cada uma na posição mais barata,
+respeitando a compatibilidade e a carga.
+
+61
+00:03:56,092 --> 00:03:59,810
+Assim o filho herda um bom agrupamento sem
+destruir a estrutura do outro pai.
+
+62
+00:04:00,110 --> 00:04:02,998
+Duas mutações também são específicas do
+problema.
+
+63
+00:04:03,018 --> 00:04:06,638
+A de prioridade antecipa uma entrega crítica
+ou alta dentro da rota.
+
+64
+00:04:06,658 --> 00:04:11,497
+A de reparo tira uma entrega de uma rota que
+viola restrição e a reinsere onde é viável.
+
+65
+00:04:11,517 --> 00:04:15,620
+Por exemplo, insulina numa moto sem baú
+térmico volta para um veículo refrigerado.
+
+66
+00:04:16,370 --> 00:04:19,525
+Aqui está a execução real, com python main
+ponto py.
+
+67
+00:04:19,545 --> 00:04:22,631
+Na geração zero, o melhor indivíduo ainda é
+inviável.
+
+68
+00:04:22,651 --> 00:04:27,388
+Na geração cinco aparece a primeira solução
+viável, e na geração cem a fitness chega a
+
+69
+00:04:27,408 --> 00:04:28,384
+quinhentos e dois.
+
+70
+00:04:28,404 --> 00:04:33,557
+O algoritmo para por paciência depois de
+trezentas e cinquenta e uma gerações, cerca de
+
+71
+00:04:33,577 --> 00:04:36,470
+trinta e seis mil avaliações, em poucos
+segundos.
+
+72
+00:04:36,490 --> 00:04:41,595
+Resultado: duzentos e cinquenta e três vírgula
+cinco quilômetros, noventa e sete por cento
+
+73
+00:04:41,615 --> 00:04:43,950
+das entregas no prazo e nenhuma violação.
+
+74
+00:04:44,250 --> 00:04:48,506
+Nesta animação, o algoritmo parte de uma
+população totalmente aleatória, sem
+
+75
+00:04:48,526 --> 00:04:49,182
+heurísticas.
+
+76
+00:04:49,202 --> 00:04:53,599
+No começo, as rotas cruzam a cidade de ponta a
+ponta e violam restrições.
+
+77
+00:04:53,619 --> 00:04:57,860
+Em poucas dezenas de gerações, elas se
+organizam por região e ficam viáveis.
+
+78
+00:04:58,160 --> 00:05:02,140
+Na curva de convergência, em escala
+logarítmica, o melhor indivíduo cai dos
+
+79
+00:05:02,160 --> 00:05:05,286
+milhares, que são as penalidades, para cerca
+de quinhentos.
+
+80
+00:05:05,306 --> 00:05:09,467
+A média da população continua alta de
+propósito: crossover e mutação seguem
+
+81
+00:05:09,487 --> 00:05:10,100
+explorando.
+
+82
+00:05:10,850 --> 00:05:15,469
+No painel, o plano do dia: duzentos e
+cinquenta e três vírgula cinco quilômetros,
+
+83
+00:05:15,489 --> 00:05:18,046
+quarenta e seis a menos que o processo atual.
+
+84
+00:05:18,066 --> 00:05:22,417
+Custo de mil cento e setenta e oito reais,
+trezentos e noventa e nove a menos.
+
+85
+00:05:22,437 --> 00:05:27,493
+Noventa e sete por cento das entregas no
+prazo, trinta e nove pontos acima, e nenhuma
+
+86
+00:05:27,513 --> 00:05:28,030
+violação.
+
+87
+00:05:28,050 --> 00:05:32,383
+No mapa, cada veículo é uma camada, o número é
+a ordem de visita, a forma indica a
+
+88
+00:05:32,403 --> 00:05:35,270
+prioridade, e cada parada abre os detalhes da
+entrega.
+
+89
+00:05:35,570 --> 00:05:40,645
+Na linha do tempo, a van refrigerada entrega
+as três críticas com vacinas e trombolítico às
+
+90
+00:05:40,665 --> 00:05:45,516
+sete e vinte e cinco, oito e quinze e oito e
+cinquenta e oito, todas antes do prazo das
+
+91
+00:05:45,536 --> 00:05:45,936
+nove.
+
+92
+00:05:45,816 --> 00:05:50,866
+A moto com baú térmico leva três insulinas: a
+terceira chega às nove e três, dois minutos e
+
+93
+00:05:50,886 --> 00:05:52,036
+meio depois do prazo.
+
+94
+00:05:52,056 --> 00:05:53,633
+É o único atraso do dia.
+
+95
+00:05:53,653 --> 00:05:56,940
+Todos os veículos voltam até meio-dia e
+quarenta e três.
+
+96
+00:05:57,240 --> 00:06:02,543
+A moto V4 usa noventa e oito por cento da
+autonomia e noventa e seis por cento da carga.
+
+97
+00:06:02,563 --> 00:06:05,310
+As restrições estão ativas, não são
+decorativas.
+
+98
+00:06:06,060 --> 00:06:10,924
+Para comparar, simulei o processo atual: o
+despachante atende primeiro as urgências e,
+
+99
+00:06:10,944 --> 00:06:13,081
+depois, sempre a entrega mais próxima.
+
+100
+00:06:13,101 --> 00:06:18,366
+Resultado: duzentos e noventa e nove vírgula
+cinco quilômetros, mil quinhentos e setenta e
+
+101
+00:06:18,386 --> 00:06:23,709
+sete reais, só cinquenta e oito por cento das
+entregas no prazo, e trinta e sete e meio por
+
+102
+00:06:23,729 --> 00:06:24,825
+cento das críticas.
+
+103
+00:06:24,845 --> 00:06:30,079
+O algoritmo genético economiza quarenta e seis
+quilômetros, trezentos e noventa e nove reais
+
+104
+00:06:30,099 --> 00:06:32,440
+e quatro horas e dezoito minutos de rota.
+
+105
+00:06:32,740 --> 00:06:37,249
+No comparativo, dez abordagens no mesmo
+cenário, com a mesma avaliação, e dez
+
+106
+00:06:37,269 --> 00:06:39,425
+execuções para cada método aleatório.
+
+107
+00:06:39,445 --> 00:06:44,366
+O algoritmo genético tem fitness média
+quinhentos e quatro vírgula sete, com desvio
+
+108
+00:06:44,386 --> 00:06:45,735
+de quatro vírgula sete.
+
+109
+00:06:45,755 --> 00:06:50,564
+O Simulated Annealing fica em quinhentos e
+vinte vírgula sete, com desvio de quarenta e
+
+110
+00:06:50,584 --> 00:06:54,949
+oito: nas medianas não há diferença
+estatística, mas o algoritmo genético é dez
+
+111
+00:06:54,969 --> 00:06:56,004
+vezes mais estável.
+
+112
+00:06:56,024 --> 00:07:01,147
+O OR-Tools, do Google, roda menos quilômetros,
+duzentos e vinte e cinco, mas entrega as
+
+113
+00:07:01,167 --> 00:07:04,694
+críticas mais tarde, porque não modela o peso
+da prioridade.
+
+114
+00:07:04,714 --> 00:07:10,080
+As heurísticas construtivas e o TSP do código
+base ficam com atrasos e violações.
+
+115
+00:07:10,380 --> 00:07:14,209
+Na ablação, vinte e uma configurações, com dez
+sementes cada.
+
+116
+00:07:14,229 --> 00:07:20,264
+O crossover BCRC chega a quinhentos e dois; OX
+e PMX ficam perto de setecentos e cinquenta; e
+
+117
+00:07:20,284 --> 00:07:26,254
+o ERX, acima de três mil, porque embaralha os
+separadores e só metade das soluções é viável.
+
+118
+00:07:26,274 --> 00:07:31,217
+Torneio é a melhor seleção, e truncamento, a
+seleção original do código base, é a pior.
+
+119
+00:07:31,237 --> 00:07:34,730
+A configuração do código base nunca chega a
+uma solução viável.
+
+120
+00:07:35,030 --> 00:07:39,472
+Na escalabilidade, de vinte a noventa
+entregas, o algoritmo genético e o Simulated
+
+121
+00:07:39,492 --> 00:07:43,445
+Annealing ficam a no máximo três por cento do
+melhor resultado conhecido.
+
+122
+00:07:43,465 --> 00:07:48,070
+O tempo do algoritmo genético cresce até cerca
+de cinquenta segundos com noventa entregas.
+
+123
+00:07:48,820 --> 00:07:51,383
+Agora, a integração com a LLM.
+
+124
+00:07:51,403 --> 00:07:55,696
+Uso a OpenRouter com um modelo gratuito, o
+Nemotron três Ultra, da NVIDIA.
+
+125
+00:07:55,716 --> 00:08:00,068
+A LLM não calcula nada: ela recebe um JSON com
+os números prontos.
+
+126
+00:08:00,088 --> 00:08:04,723
+O prompt traz papel, regras, dados
+delimitados, o esqueleto da resposta e um
+
+127
+00:08:04,743 --> 00:08:06,621
+exemplo, com temperatura baixa.
+
+128
+00:08:06,641 --> 00:08:11,003
+Há cache em disco, porque a cota gratuita é de
+cinquenta requisições por dia, um modo
+
+129
+00:08:11,023 --> 00:08:14,580
+offline, e guardrails que dão uma nota de zero
+a cem a cada resposta.
+
+130
+00:08:14,880 --> 00:08:18,802
+Estas são as instruções geradas para o
+motorista da moto com baú térmico.
+
+131
+00:08:18,822 --> 00:08:23,510
+Primeiro, um checklist antes de sair, com a
+caixa térmica e o registro de temperatura.
+
+132
+00:08:23,530 --> 00:08:27,277
+Depois, as paradas na ordem, com horário,
+janela e prazo.
+
+133
+00:08:27,297 --> 00:08:31,863
+A instrução avisa do atraso previsto na
+terceira insulina e diz o que fazer em caso de
+
+134
+00:08:31,883 --> 00:08:32,449
+imprevisto.
+
+135
+00:08:32,469 --> 00:08:34,010
+Nota de fidelidade: cem.
+
+136
+00:08:34,310 --> 00:08:39,169
+O relatório diário compara o plano com o
+processo atual numa tabela de indicadores, e
+
+137
+00:08:39,189 --> 00:08:43,761
+aponta os dois pontos de atenção do dia: o
+atraso da entrega E vinte e cinco e a
+
+138
+00:08:43,781 --> 00:08:45,560
+autonomia da moto V4 no limite.
+
+139
+00:08:45,860 --> 00:08:50,364
+As sugestões de melhoria partem de padrões
+medidos e de simulações do tipo e se: o
+
+140
+00:08:50,384 --> 00:08:53,950
+sistema re-otimiza o dia com a mudança
+proposta antes de sugerir.
+
+141
+00:08:53,970 --> 00:08:58,909
+Instalar um baú térmico também na moto dois
+leva as críticas no prazo de oitenta e sete e
+
+142
+00:08:58,929 --> 00:09:03,812
+meio para cem por cento, com trinta e quatro
+quilômetros e setenta e sete reais a menos.
+
+143
+00:09:03,832 --> 00:09:08,265
+Já operar sem a van elétrica piora o dia, com
+três atrasos e uma violação.
+
+144
+00:09:08,285 --> 00:09:09,580
+Então, ela fica.
+
+145
+00:09:09,880 --> 00:09:12,687
+A equipe também pode perguntar em linguagem
+natural.
+
+146
+00:09:12,707 --> 00:09:15,363
+Quem leva a insulina do paciente P D cinco?
+
+147
+00:09:15,383 --> 00:09:18,713
+A moto V4, na terceira parada, às nove e três.
+
+148
+00:09:18,733 --> 00:09:22,678
+Qual crítica corre risco, e quais entregas são
+de medicamentos controlados?
+
+149
+00:09:22,698 --> 00:09:25,679
+E uma pergunta armadilha: o telefone de um
+paciente.
+
+150
+00:09:25,699 --> 00:09:28,690
+A resposta correta é que essa informação não
+está no plano.
+
+151
+00:09:28,990 --> 00:09:31,437
+E como saber se a LLM está certa?
+
+152
+00:09:31,457 --> 00:09:36,771
+Cada resposta é conferida contra os dados:
+paradas, ordem, horários, códigos, números e
+
+153
+00:09:36,791 --> 00:09:37,445
+requisitos.
+
+154
+00:09:37,465 --> 00:09:42,450
+Na versão um do prompt, a avaliação pegou a
+LLM chamando um antibiótico de medicamento
+
+155
+00:09:42,470 --> 00:09:44,545
+controlado, e entrou uma regra nova.
+
+156
+00:09:44,565 --> 00:09:49,601
+Na versão dois, pegou um CAPS listado como
+controlado, e entraram índices pré-calculados.
+
+157
+00:09:49,621 --> 00:09:54,120
+Na versão três, nenhum erro factual, e nota
+média de noventa e sete vírgula oito.
+
+158
+00:09:54,870 --> 00:09:59,835
+Para o relatório semanal, simulei uma semana
+de segunda a sexta, de trinta a trinta e oito
+
+159
+00:09:59,855 --> 00:10:00,777
+entregas por dia.
+
+160
+00:10:00,797 --> 00:10:05,986
+O Med Route economiza trezentos e dezenove
+quilômetros, vinte e quatro por cento, mil
+
+161
+00:10:06,006 --> 00:10:11,440
+oitocentos e quarenta e cinco reais, quase
+dezenove horas de rota e cento e quatro quilos
+
+162
+00:10:11,460 --> 00:10:12,114
+de CO dois.
+
+163
+00:10:12,134 --> 00:10:16,370
+As entregas no prazo sobem de cinquenta e oito
+para noventa e nove por cento.
+
+164
+00:10:17,120 --> 00:10:22,531
+Tudo isso também está numa API REST, com
+documentação automática: otimizar, comparar,
+
+165
+00:10:22,551 --> 00:10:25,790
+mapa, instruções, relatório, sugestões e
+perguntas.
+
+166
+00:10:25,810 --> 00:10:30,870
+Os endpoints da LLM aceitam os modos
+automático, LLM e offline.
+
+167
+00:10:31,170 --> 00:10:34,917
+São cento e trinta e cinco testes
+automatizados, todos passando.
+
+168
+00:10:34,937 --> 00:10:40,317
+Eles cobrem as contas exatas da fitness, a
+concordância das duas implementações, os
+
+169
+00:10:40,337 --> 00:10:46,171
+operadores, a regressão do bug do código base,
+o algoritmo genético, as heurísticas, a LLM
+
+170
+00:10:46,191 --> 00:10:50,680
+com HTTP simulado, sem rede, os guardrails, a
+API e as visualizações.
+
+171
+00:10:50,980 --> 00:10:56,149
+O projeto é um pacote instalável, com os
+módulos do algoritmo genético, da LLM, das
+
+172
+00:10:56,169 --> 00:11:01,650
+visualizações e da API, além dos scripts de
+experimentos, avaliação, notebook e vídeo, e
+
+173
+00:11:01,670 --> 00:11:02,670
+da documentação.
+
+174
+00:11:03,420 --> 00:11:08,622
+Resumindo: rotas viáveis, sem violações, com
+noventa e sete por cento das entregas no
+
+175
+00:11:08,642 --> 00:11:09,042
+prazo.
+
+176
+00:11:09,010 --> 00:11:13,638
+Quinze por cento menos quilômetros e vinte e
+cinco por cento menos custo no dia, e vinte e
+
+177
+00:11:13,658 --> 00:11:15,962
+quatro por cento menos quilômetros na semana.
+
+178
+00:11:15,982 --> 00:11:21,323
+Um algoritmo genético robusto, e uma LLM
+auditada automaticamente, com nota média de
+
+179
+00:11:21,343 --> 00:11:23,130
+noventa e sete vírgula oito.
+
+180
+00:11:23,430 --> 00:11:28,680
+Como limitações, os dados são sintéticos e as
+distâncias são estimadas; o próximo passo é
+
+181
+00:11:28,700 --> 00:11:30,219
+integrar um roteador real.
+
+182
+00:11:30,239 --> 00:11:35,152
+Também quero evoluir para várias viagens por
+veículo e reotimização em tempo real, usar um
+
+183
+00:11:35,172 --> 00:11:39,919
+modelo pago ou local em produção, e validar
+tudo com a equipe de logística do hospital.
+
+184
+00:11:39,939 --> 00:11:40,650
+Obrigado!

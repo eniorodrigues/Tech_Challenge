@@ -1,0 +1,733 @@
+{
+  "name": "Distribuição diária — 2026-10-13",
+  "date": "2026-10-13",
+  "description": "36 entregas (8 críticas), 1156 kg, 5 veículos — dados sintéticos sobre a geografia de São Paulo.",
+  "shift_start": "07:00",
+  "shift_minutes": 480.0,
+  "circuity": 1.35,
+  "policy": {
+    "weights": {
+      "3": 10.0,
+      "2": 3.0,
+      "1": 1.0
+    },
+    "sla_min": {
+      "3": 120.0,
+      "2": 240.0,
+      "1": null
+    }
+  },
+  "depot": {
+    "name": "Central de Abastecimento Farmacêutico — Hospital Universitário",
+    "lat": -23.5573,
+    "lon": -46.6702,
+    "address": "Cerqueira César, São Paulo/SP (localização ilustrativa)"
+  },
+  "vehicles": [
+    {
+      "id": "V1",
+      "name": "Van Refrigerada 01",
+      "kind": "van_refrigerada",
+      "capacity_kg": 450,
+      "range_km": 140,
+      "speed_kmh": 22,
+      "cost_per_km": 3.1,
+      "features": [
+        "controlado",
+        "refrigerado"
+      ],
+      "co2_kg_per_km": 0.28,
+      "max_shift_min": null
+    },
+    {
+      "id": "V2",
+      "name": "Van 02 (cofre)",
+      "kind": "van",
+      "capacity_kg": 650,
+      "range_km": 160,
+      "speed_kmh": 22,
+      "cost_per_km": 2.4,
+      "features": [
+        "controlado"
+      ],
+      "co2_kg_per_km": 0.25,
+      "max_shift_min": null
+    },
+    {
+      "id": "V3",
+      "name": "Van Elétrica 03",
+      "kind": "van_eletrica",
+      "capacity_kg": 550,
+      "range_km": 70,
+      "speed_kmh": 22,
+      "cost_per_km": 0.9,
+      "features": [],
+      "co2_kg_per_km": 0.03,
+      "max_shift_min": null
+    },
+    {
+      "id": "V4",
+      "name": "Moto 01 (baú térmico)",
+      "kind": "moto",
+      "capacity_kg": 25,
+      "range_km": 60,
+      "speed_kmh": 28,
+      "cost_per_km": 0.45,
+      "features": [
+        "refrigerado"
+      ],
+      "co2_kg_per_km": 0.07,
+      "max_shift_min": null
+    },
+    {
+      "id": "V5",
+      "name": "Moto 02",
+      "kind": "moto",
+      "capacity_kg": 25,
+      "range_km": 60,
+      "speed_kmh": 28,
+      "cost_per_km": 0.45,
+      "features": [],
+      "co2_kg_per_km": 0.07,
+      "max_shift_min": null
+    }
+  ],
+  "deliveries": [
+    {
+      "id": "E01",
+      "name": "UBS Água Branca",
+      "kind": "UBS",
+      "lat": -23.5227,
+      "lon": -46.6879,
+      "priority": "CRÍTICA",
+      "demand_kg": 57.0,
+      "requirements": [
+        "refrigerado"
+      ],
+      "service_min": 12,
+      "window": [
+        0.0,
+        300.0
+      ],
+      "items": "Vacinas e imunobiológicos (cadeia fria) · Kits de coleta laboratorial",
+      "neighborhood": "Água Branca"
+    },
+    {
+      "id": "E02",
+      "name": "UBS Brooklin",
+      "kind": "UBS",
+      "lat": -23.6148,
+      "lon": -46.6939,
+      "priority": "CRÍTICA",
+      "demand_kg": 63.5,
+      "requirements": [
+        "refrigerado"
+      ],
+      "service_min": 12,
+      "window": [
+        0.0,
+        300.0
+      ],
+      "items": "Vacinas e imunobiológicos (cadeia fria) · Luvas, seringas e gaze",
+      "neighborhood": "Brooklin"
+    },
+    {
+      "id": "E03",
+      "name": "UBS Morumbi",
+      "kind": "UBS",
+      "lat": -23.6005,
+      "lon": -46.7202,
+      "priority": "ALTA",
+      "demand_kg": 46.5,
+      "requirements": [],
+      "service_min": 12,
+      "window": [
+        60.0,
+        300.0
+      ],
+      "items": "Curativos especiais (hidrocoloide, alginato)",
+      "neighborhood": "Morumbi"
+    },
+    {
+      "id": "E04",
+      "name": "UBS Tatuapé",
+      "kind": "UBS",
+      "lat": -23.5403,
+      "lon": -46.5763,
+      "priority": "NORMAL",
+      "demand_kg": 64.0,
+      "requirements": [],
+      "service_min": 12,
+      "window": [
+        60.0,
+        300.0
+      ],
+      "items": "EPIs — máscaras e aventais · Kits de coleta laboratorial",
+      "neighborhood": "Tatuapé"
+    },
+    {
+      "id": "E05",
+      "name": "UBS Saúde",
+      "kind": "UBS",
+      "lat": -23.6178,
+      "lon": -46.6385,
+      "priority": "ALTA",
+      "demand_kg": 56.0,
+      "requirements": [],
+      "service_min": 12,
+      "window": [
+        60.0,
+        300.0
+      ],
+      "items": "Curativos especiais (hidrocoloide, alginato)",
+      "neighborhood": "Saúde"
+    },
+    {
+      "id": "E06",
+      "name": "UBS Mooca",
+      "kind": "UBS",
+      "lat": -23.5599,
+      "lon": -46.5975,
+      "priority": "NORMAL",
+      "demand_kg": 75.0,
+      "requirements": [],
+      "service_min": 12,
+      "window": [
+        0.0,
+        480.0
+      ],
+      "items": "Kits de coleta laboratorial · Soro fisiológico 0,9% (caixas)",
+      "neighborhood": "Mooca"
+    },
+    {
+      "id": "E07",
+      "name": "UBS Higienópolis",
+      "kind": "UBS",
+      "lat": -23.5441,
+      "lon": -46.658,
+      "priority": "ALTA",
+      "demand_kg": 47.5,
+      "requirements": [],
+      "service_min": 12,
+      "window": [
+        0.0,
+        480.0
+      ],
+      "items": "Curativos especiais (hidrocoloide, alginato)",
+      "neighborhood": "Higienópolis"
+    },
+    {
+      "id": "E08",
+      "name": "UBS Pompeia",
+      "kind": "UBS",
+      "lat": -23.5326,
+      "lon": -46.6869,
+      "priority": "NORMAL",
+      "demand_kg": 36.0,
+      "requirements": [],
+      "service_min": 12,
+      "window": [
+        0.0,
+        480.0
+      ],
+      "items": "Saneantes e material de limpeza hospitalar",
+      "neighborhood": "Pompeia"
+    },
+    {
+      "id": "E09",
+      "name": "UPA Moema",
+      "kind": "UPA",
+      "lat": -23.6006,
+      "lon": -46.6649,
+      "priority": "ALTA",
+      "demand_kg": 90.0,
+      "requirements": [
+        "controlado"
+      ],
+      "service_min": 15,
+      "window": [
+        0.0,
+        480.0
+      ],
+      "items": "Morfina e fentanil (controlados — Portaria 344/98) · Soro fisiológico 0,9% (caixas)",
+      "neighborhood": "Moema"
+    },
+    {
+      "id": "E10",
+      "name": "UPA Lapa",
+      "kind": "UPA",
+      "lat": -23.5226,
+      "lon": -46.7029,
+      "priority": "ALTA",
+      "demand_kg": 63.5,
+      "requirements": [
+        "controlado"
+      ],
+      "service_min": 15,
+      "window": [
+        0.0,
+        480.0
+      ],
+      "items": "Morfina e fentanil (controlados — Portaria 344/98)",
+      "neighborhood": "Lapa"
+    },
+    {
+      "id": "E11",
+      "name": "UPA Vila Guilherme",
+      "kind": "UPA",
+      "lat": -23.5104,
+      "lon": -46.6058,
+      "priority": "CRÍTICA",
+      "demand_kg": 98.0,
+      "requirements": [
+        "refrigerado"
+      ],
+      "service_min": 15,
+      "window": [
+        0.0,
+        480.0
+      ],
+      "items": "Alteplase — trombolítico (cadeia fria) · Luvas, seringas e gaze",
+      "neighborhood": "Vila Guilherme"
+    },
+    {
+      "id": "E12",
+      "name": "UPA Perdizes",
+      "kind": "UPA",
+      "lat": -23.5367,
+      "lon": -46.6779,
+      "priority": "NORMAL",
+      "demand_kg": 79.5,
+      "requirements": [],
+      "service_min": 15,
+      "window": [
+        0.0,
+        480.0
+      ],
+      "items": "Soro fisiológico 0,9% (caixas)",
+      "neighborhood": "Perdizes"
+    },
+    {
+      "id": "E13",
+      "name": "AME Vila Maria",
+      "kind": "AME",
+      "lat": -23.513,
+      "lon": -46.583,
+      "priority": "NORMAL",
+      "demand_kg": 75.0,
+      "requirements": [],
+      "service_min": 12,
+      "window": [
+        60.0,
+        300.0
+      ],
+      "items": "Kits de coleta laboratorial",
+      "neighborhood": "Vila Maria"
+    },
+    {
+      "id": "E14",
+      "name": "AME Vila Leopoldina",
+      "kind": "AME",
+      "lat": -23.5301,
+      "lon": -46.7319,
+      "priority": "ALTA",
+      "demand_kg": 59.5,
+      "requirements": [],
+      "service_min": 12,
+      "window": [
+        0.0,
+        360.0
+      ],
+      "items": "Curativos especiais (hidrocoloide, alginato)",
+      "neighborhood": "Vila Leopoldina"
+    },
+    {
+      "id": "E15",
+      "name": "AME Vila Mariana",
+      "kind": "AME",
+      "lat": -23.5893,
+      "lon": -46.6346,
+      "priority": "NORMAL",
+      "demand_kg": 29.0,
+      "requirements": [],
+      "service_min": 12,
+      "window": [
+        60.0,
+        300.0
+      ],
+      "items": "EPIs — máscaras e aventais",
+      "neighborhood": "Vila Mariana"
+    },
+    {
+      "id": "E16",
+      "name": "Hospital Dia Freguesia do Ó",
+      "kind": "Hospital Dia",
+      "lat": -23.5009,
+      "lon": -46.6966,
+      "priority": "ALTA",
+      "demand_kg": 62.0,
+      "requirements": [],
+      "service_min": 15,
+      "window": [
+        0.0,
+        480.0
+      ],
+      "items": "Dieta enteral · EPIs — máscaras e aventais",
+      "neighborhood": "Freguesia do Ó"
+    },
+    {
+      "id": "E17",
+      "name": "Hospital Dia Cambuci",
+      "kind": "Hospital Dia",
+      "lat": -23.5672,
+      "lon": -46.6225,
+      "priority": "NORMAL",
+      "demand_kg": 40.0,
+      "requirements": [],
+      "service_min": 15,
+      "window": [
+        0.0,
+        480.0
+      ],
+      "items": "EPIs — máscaras e aventais",
+      "neighborhood": "Cambuci"
+    },
+    {
+      "id": "E18",
+      "name": "CAPS Carrão",
+      "kind": "CAPS",
+      "lat": -23.552,
+      "lon": -46.545,
+      "priority": "ALTA",
+      "demand_kg": 8.0,
+      "requirements": [
+        "controlado"
+      ],
+      "service_min": 10,
+      "window": [
+        60.0,
+        420.0
+      ],
+      "items": "Clonazepam e haloperidol (controlados — Portaria 344/98) · EPIs — máscaras e aventais",
+      "neighborhood": "Carrão"
+    },
+    {
+      "id": "E19",
+      "name": "CAPS Barra Funda",
+      "kind": "CAPS",
+      "lat": -23.5262,
+      "lon": -46.6655,
+      "priority": "ALTA",
+      "demand_kg": 7.5,
+      "requirements": [],
+      "service_min": 10,
+      "window": [
+        60.0,
+        420.0
+      ],
+      "items": "Anti-hipertensivos e hipoglicemiantes de uso contínuo · Luvas, seringas e gaze",
+      "neighborhood": "Barra Funda"
+    },
+    {
+      "id": "E20",
+      "name": "CAPS Vila Prudente",
+      "kind": "CAPS",
+      "lat": -23.5832,
+      "lon": -46.581,
+      "priority": "ALTA",
+      "demand_kg": 8.5,
+      "requirements": [
+        "controlado"
+      ],
+      "service_min": 10,
+      "window": [
+        60.0,
+        420.0
+      ],
+      "items": "Clonazepam e haloperidol (controlados — Portaria 344/98)",
+      "neighborhood": "Vila Prudente"
+    },
+    {
+      "id": "E21",
+      "name": "Paciente PD-01 (Tatuapé)",
+      "kind": "Domiciliar",
+      "lat": -23.542884,
+      "lon": -46.571831,
+      "priority": "ALTA",
+      "demand_kg": 9.0,
+      "requirements": [],
+      "service_min": 15,
+      "window": [
+        120.0,
+        360.0
+      ],
+      "items": "Curativos especiais (hidrocoloide, alginato)",
+      "neighborhood": "Tatuapé"
+    },
+    {
+      "id": "E22",
+      "name": "Paciente PD-02 (Rio Pequeno)",
+      "kind": "Domiciliar",
+      "lat": -23.572287,
+      "lon": -46.754259,
+      "priority": "CRÍTICA",
+      "demand_kg": 5.0,
+      "requirements": [],
+      "service_min": 15,
+      "window": [
+        0.0,
+        300.0
+      ],
+      "items": "Ceftriaxona IV para terapia domiciliar",
+      "neighborhood": "Rio Pequeno"
+    },
+    {
+      "id": "E23",
+      "name": "Paciente PD-03 (Ipiranga)",
+      "kind": "Domiciliar",
+      "lat": -23.591828,
+      "lon": -46.609643,
+      "priority": "ALTA",
+      "demand_kg": 6.0,
+      "requirements": [
+        "controlado"
+      ],
+      "service_min": 15,
+      "window": [
+        120.0,
+        420.0
+      ],
+      "items": "Morfina e fentanil (controlados — Portaria 344/98)",
+      "neighborhood": "Ipiranga"
+    },
+    {
+      "id": "E24",
+      "name": "Paciente PD-04 (Perdizes)",
+      "kind": "Domiciliar",
+      "lat": -23.534414,
+      "lon": -46.683194,
+      "priority": "ALTA",
+      "demand_kg": 8.5,
+      "requirements": [
+        "controlado"
+      ],
+      "service_min": 15,
+      "window": [
+        0.0,
+        300.0
+      ],
+      "items": "Morfina e fentanil (controlados — Portaria 344/98)",
+      "neighborhood": "Perdizes"
+    },
+    {
+      "id": "E25",
+      "name": "Paciente PD-05 (Jabaquara)",
+      "kind": "Domiciliar",
+      "lat": -23.648682,
+      "lon": -46.640672,
+      "priority": "CRÍTICA",
+      "demand_kg": 5.5,
+      "requirements": [
+        "refrigerado"
+      ],
+      "service_min": 15,
+      "window": [
+        0.0,
+        300.0
+      ],
+      "items": "Insulina NPH e regular (cadeia fria)",
+      "neighborhood": "Jabaquara"
+    },
+    {
+      "id": "E26",
+      "name": "Paciente PD-06 (Vila Sônia)",
+      "kind": "Domiciliar",
+      "lat": -23.597301,
+      "lon": -46.734385,
+      "priority": "ALTA",
+      "demand_kg": 3.0,
+      "requirements": [],
+      "service_min": 15,
+      "window": [
+        120.0,
+        360.0
+      ],
+      "items": "Curativos especiais (hidrocoloide, alginato)",
+      "neighborhood": "Vila Sônia"
+    },
+    {
+      "id": "E27",
+      "name": "Paciente PD-07 (Campo Belo)",
+      "kind": "Domiciliar",
+      "lat": -23.623841,
+      "lon": -46.670096,
+      "priority": "NORMAL",
+      "demand_kg": 6.5,
+      "requirements": [],
+      "service_min": 15,
+      "window": [
+        0.0,
+        300.0
+      ],
+      "items": "Fraldas geriátricas e material de higiene",
+      "neighborhood": "Campo Belo"
+    },
+    {
+      "id": "E28",
+      "name": "Paciente PD-08 (Lapa)",
+      "kind": "Domiciliar",
+      "lat": -23.523671,
+      "lon": -46.704828,
+      "priority": "CRÍTICA",
+      "demand_kg": 3.5,
+      "requirements": [
+        "refrigerado"
+      ],
+      "service_min": 15,
+      "window": [
+        0.0,
+        300.0
+      ],
+      "items": "Insulina NPH e regular (cadeia fria)",
+      "neighborhood": "Lapa"
+    },
+    {
+      "id": "E29",
+      "name": "Paciente PD-09 (Sé)",
+      "kind": "Domiciliar",
+      "lat": -23.551159,
+      "lon": -46.636657,
+      "priority": "NORMAL",
+      "demand_kg": 8.0,
+      "requirements": [],
+      "service_min": 15,
+      "window": [
+        60.0,
+        240.0
+      ],
+      "items": "Fraldas geriátricas e material de higiene",
+      "neighborhood": "Sé"
+    },
+    {
+      "id": "E30",
+      "name": "Paciente PD-10 (Lapa)",
+      "kind": "Domiciliar",
+      "lat": -23.520926,
+      "lon": -46.702413,
+      "priority": "NORMAL",
+      "demand_kg": 9.0,
+      "requirements": [],
+      "service_min": 15,
+      "window": [
+        0.0,
+        300.0
+      ],
+      "items": "Fraldas geriátricas e material de higiene",
+      "neighborhood": "Lapa"
+    },
+    {
+      "id": "E31",
+      "name": "Paciente PD-11 (Tatuapé)",
+      "kind": "Domiciliar",
+      "lat": -23.541329,
+      "lon": -46.576524,
+      "priority": "CRÍTICA",
+      "demand_kg": 8.5,
+      "requirements": [
+        "refrigerado"
+      ],
+      "service_min": 15,
+      "window": [
+        0.0,
+        360.0
+      ],
+      "items": "Insulina NPH e regular (cadeia fria)",
+      "neighborhood": "Tatuapé"
+    },
+    {
+      "id": "E32",
+      "name": "Paciente PD-12 (Morumbi)",
+      "kind": "Domiciliar",
+      "lat": -23.603083,
+      "lon": -46.716791,
+      "priority": "NORMAL",
+      "demand_kg": 3.5,
+      "requirements": [],
+      "service_min": 15,
+      "window": [
+        180.0,
+        360.0
+      ],
+      "items": "Fraldas geriátricas e material de higiene",
+      "neighborhood": "Morumbi"
+    },
+    {
+      "id": "E33",
+      "name": "Paciente PD-13 (Vila Guilherme)",
+      "kind": "Domiciliar",
+      "lat": -23.508619,
+      "lon": -46.60596,
+      "priority": "ALTA",
+      "demand_kg": 4.0,
+      "requirements": [],
+      "service_min": 15,
+      "window": [
+        60.0,
+        240.0
+      ],
+      "items": "Curativos especiais (hidrocoloide, alginato)",
+      "neighborhood": "Vila Guilherme"
+    },
+    {
+      "id": "E34",
+      "name": "Paciente PD-14 (Cursino)",
+      "kind": "Domiciliar",
+      "lat": -23.619736,
+      "lon": -46.614524,
+      "priority": "CRÍTICA",
+      "demand_kg": 2.0,
+      "requirements": [],
+      "service_min": 15,
+      "window": [
+        0.0,
+        300.0
+      ],
+      "items": "Ceftriaxona IV para terapia domiciliar",
+      "neighborhood": "Cursino"
+    },
+    {
+      "id": "E35",
+      "name": "Paciente PD-15 (Tatuapé)",
+      "kind": "Domiciliar",
+      "lat": -23.545174,
+      "lon": -46.576206,
+      "priority": "ALTA",
+      "demand_kg": 2.0,
+      "requirements": [],
+      "service_min": 15,
+      "window": [
+        60.0,
+        240.0
+      ],
+      "items": "Curativos especiais (hidrocoloide, alginato)",
+      "neighborhood": "Tatuapé"
+    },
+    {
+      "id": "E36",
+      "name": "Paciente PD-16 (Jaguaré)",
+      "kind": "Domiciliar",
+      "lat": -23.552881,
+      "lon": -46.742317,
+      "priority": "NORMAL",
+      "demand_kg": 6.0,
+      "requirements": [],
+      "service_min": 15,
+      "window": [
+        60.0,
+        240.0
+      ],
+      "items": "Fraldas geriátricas e material de higiene",
+      "neighborhood": "Jaguaré"
+    }
+  ]
+}

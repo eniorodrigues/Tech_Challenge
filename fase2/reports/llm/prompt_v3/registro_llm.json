@@ -1,0 +1,244 @@
+[
+  {
+    "arquivo": "instrucoes_V1.md",
+    "tarefa": "instrucoes",
+    "origem": "llm",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 30.42,
+    "validacao": {
+      "nota": 98.0,
+      "cobertura_paradas": 1.0,
+      "ordem_correta": true,
+      "horarios_citados": 1.0,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [
+        "218.5 kg"
+      ],
+      "requisitos_inventados": [],
+      "observacoes": []
+    },
+    "aviso": null
+  },
+  {
+    "arquivo": "instrucoes_V2.md",
+    "tarefa": "instrucoes",
+    "origem": "cache",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 0.0,
+    "validacao": {
+      "nota": 100.0,
+      "cobertura_paradas": 1.0,
+      "ordem_correta": true,
+      "horarios_citados": 1.0,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [],
+      "requisitos_inventados": [],
+      "observacoes": []
+    },
+    "aviso": null
+  },
+  {
+    "arquivo": "instrucoes_V3.md",
+    "tarefa": "instrucoes",
+    "origem": "cache",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 0.0,
+    "validacao": {
+      "nota": 98.0,
+      "cobertura_paradas": 1.0,
+      "ordem_correta": true,
+      "horarios_citados": 1.0,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [
+        "29.47 km"
+      ],
+      "requisitos_inventados": [],
+      "observacoes": []
+    },
+    "aviso": null
+  },
+  {
+    "arquivo": "instrucoes_V4.md",
+    "tarefa": "instrucoes",
+    "origem": "cache",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 0.0,
+    "validacao": {
+      "nota": 100.0,
+      "cobertura_paradas": 1.0,
+      "ordem_correta": true,
+      "horarios_citados": 1.0,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [],
+      "requisitos_inventados": [],
+      "observacoes": []
+    },
+    "aviso": null
+  },
+  {
+    "arquivo": "instrucoes_V5.md",
+    "tarefa": "instrucoes",
+    "origem": "cache",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 0.0,
+    "validacao": {
+      "nota": 100.0,
+      "cobertura_paradas": 1.0,
+      "ordem_correta": true,
+      "horarios_citados": 1.0,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [],
+      "requisitos_inventados": [],
+      "observacoes": []
+    },
+    "aviso": null
+  },
+  {
+    "arquivo": "relatorio_diario.md",
+    "tarefa": "relatorio_diario",
+    "origem": "cache",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 0.0,
+    "validacao": {
+      "nota": 100.0,
+      "cobertura_paradas": null,
+      "ordem_correta": null,
+      "horarios_citados": null,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [],
+      "requisitos_inventados": [],
+      "observacoes": []
+    },
+    "aviso": null
+  },
+  {
+    "arquivo": "relatorio_semanal.md",
+    "tarefa": "relatorio_semanal",
+    "origem": "cache",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 0.0,
+    "validacao": {
+      "nota": 94.0,
+      "cobertura_paradas": null,
+      "ordem_correta": null,
+      "horarios_citados": null,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [
+        "70,9 km",
+        "82,6 km",
+        "28,4%"
+      ],
+      "requisitos_inventados": [],
+      "observacoes": []
+    },
+    "aviso": null
+  },
+  {
+    "arquivo": "sugestoes_melhoria.md",
+    "tarefa": "sugestoes",
+    "origem": "cache",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 0.0,
+    "validacao": {
+      "nota": 90.0,
+      "cobertura_paradas": null,
+      "ordem_correta": null,
+      "horarios_citados": null,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [
+        "13,8%",
+        "6,5%",
+        "8,8%",
+        "11%",
+        "85%"
+      ],
+      "requisitos_inventados": [],
+      "observacoes": []
+    },
+    "aviso": null
+  },
+  {
+    "arquivo": "perguntas_e_respostas.md",
+    "tarefa": "pergunta",
+    "pergunta": "Qual veículo leva a insulina do paciente PD-05 e a que horas chega?",
+    "origem": "cache",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 0.0,
+    "validacao": {
+      "nota": 100.0,
+      "cobertura_paradas": null,
+      "ordem_correta": null,
+      "horarios_citados": null,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [],
+      "requisitos_inventados": [],
+      "observacoes": []
+    }
+  },
+  {
+    "arquivo": "perguntas_e_respostas.md",
+    "tarefa": "pergunta",
+    "pergunta": "Alguma entrega crítica corre risco de atraso? O que fazer?",
+    "origem": "cache",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 0.0,
+    "validacao": {
+      "nota": 100.0,
+      "cobertura_paradas": null,
+      "ordem_correta": null,
+      "horarios_citados": null,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [],
+      "requisitos_inventados": [],
+      "observacoes": []
+    }
+  },
+  {
+    "arquivo": "perguntas_e_respostas.md",
+    "tarefa": "pergunta",
+    "pergunta": "Quais entregas de medicamentos controlados existem hoje e em quais veículos?",
+    "origem": "cache",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 0.0,
+    "validacao": {
+      "nota": 100.0,
+      "cobertura_paradas": null,
+      "ordem_correta": null,
+      "horarios_citados": null,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [],
+      "requisitos_inventados": [],
+      "observacoes": []
+    }
+  },
+  {
+    "arquivo": "perguntas_e_respostas.md",
+    "tarefa": "pergunta",
+    "pergunta": "Qual é o telefone do paciente PD-08?",
+    "origem": "cache",
+    "modelo": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "latencia_s": 0.0,
+    "validacao": {
+      "nota": 100.0,
+      "cobertura_paradas": null,
+      "ordem_correta": null,
+      "horarios_citados": null,
+      "ids_inexistentes": [],
+      "horarios_inventados": [],
+      "numeros_nao_rastreaveis": [],
+      "requisitos_inventados": [],
+      "observacoes": []
+    }
+  }
+]
