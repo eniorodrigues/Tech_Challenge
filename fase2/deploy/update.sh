@@ -20,7 +20,11 @@ if docker inspect medroute >/dev/null 2>&1; then
  docker stop --timeout 30 medroute
  docker rm medroute
 fi
-docker run -d --name medroute --restart unless-stopped --memory=1536m --cpus=1 \
+env_args=()
+if [ -f /opt/medroute/runtime.env ]; then
+ env_args=(--env-file /opt/medroute/runtime.env)
+fi
+docker run -d --name medroute --restart unless-stopped --memory=1536m --cpus=1 "${env_args[@]}" \
  --log-opt max-size=10m --log-opt max-file=3 \
  -p 127.0.0.1:8501:8501 \
  -v /opt/medroute/data:/app/data \

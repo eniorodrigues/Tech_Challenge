@@ -9,7 +9,9 @@ continua no endereco principal, em outro conteiner.
 
 Pastas persistentes: `/opt/medroute/data`, `/opt/medroute/reports` e
 `/opt/medroute/cache`. Arquivos iniciais sao copiados sem sobrescrever os
-existentes. Nenhuma chave da OpenRouter e incluida; o modo offline e usado.
+existentes. A chave da OpenRouter, quando configurada, fica em
+`/opt/medroute/runtime.env`, com permissao 600, fora do Git e da imagem.
+O deploy carrega esse arquivo a cada atualizacao. Sem chave, usa modo offline.
 O container tem limite de 1536 MB e uma CPU. Uma atualizacao reinicia as
 sessoes abertas do painel. O acesso inicial e HTTP e nao possui login.
 
