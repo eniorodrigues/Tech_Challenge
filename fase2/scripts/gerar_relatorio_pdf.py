@@ -1,7 +1,7 @@
 """
 Gera o PDF entregável a partir de ``docs/RELATORIO_TECNICO.md``.
 
-    python scripts/gerar_relatorio_pdf.py --repo <URL_DO_REPO> --video <URL_DO_VIDEO>
+    python scripts/gerar_relatorio_pdf.py --repo <URL_DO_REPO> --video <URL_DO_VIDEO> --site <URL_DA_APLICACAO>
 
 Conversor Markdown → PDF (reportlab) para o subconjunto usado no relatório:
 títulos, parágrafos com **negrito**/*itálico*/`código`/links, listas,
@@ -200,7 +200,7 @@ def converter(md: str, st, largura: float, altura: float) -> list:
     return out
 
 
-def capa(st, repo: str, video: str, autores: str) -> list:
+def capa(st, repo: str, video: str, autores: str, site: str = "") -> list:
     itens = [Spacer(1, 3.5 * cm),
              Paragraph("Tech Challenge — Fase 2", st["sub"]),
              Paragraph("MedRoute: otimização de rotas para distribuição de medicamentos e insumos",
@@ -215,6 +215,7 @@ def capa(st, repo: str, video: str, autores: str) -> list:
              Paragraph(f"<b>Data:</b> {date.today().strftime('%d/%m/%Y')}", st["p"]),
              Paragraph(f"<b>Repositório:</b> {_inline(repo)}", st["p"]),
              Paragraph(f"<b>Vídeo de demonstração:</b> {_inline(video)}", st["p"]),
+             *([Paragraph(f"<b>Aplicação online:</b> {_inline(site)}", st["p"])] if site else []),
              Spacer(1, 0.8 * cm)]
     fig = RAIZ / "reports" / "figures" / "01_mapa_rotas_ga.png"
     if fig.exists():
@@ -237,6 +238,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo", default="(inserir o link do repositório Git)")
     ap.add_argument("--video", default="(inserir o link do vídeo no YouTube/Vimeo)")
+    ap.add_argument("--site", default="", help="endereço web da aplicação hospedada")
     ap.add_argument("--autores", default="Enio Rodrigues")
     ap.add_argument("--saida", default=str(DESTINO))
     a = ap.parse_args()
@@ -250,7 +252,7 @@ def main() -> int:
     md = ORIGEM.read_text(encoding="utf-8")
     # O título/autor do Markdown já vão na capa.
     md = re.sub(r"\A# .*?\n---\n", "", md, count=1, flags=re.S)
-    historia = capa(st, a.repo, a.video, a.autores) + converter(md, st, largura, altura)
+    historia = capa(st, a.repo, a.video, a.autores, a.site) + converter(md, st, largura, altura)
     doc.build(historia, onFirstPage=lambda c, d: None, onLaterPages=_rodape)
     print(f"PDF: {a.saida}")
     _ = KeepTogether  # (disponível para ajustes de paginação)
