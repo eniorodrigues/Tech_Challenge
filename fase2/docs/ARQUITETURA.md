@@ -1,7 +1,7 @@
 # Arquitetura do MedRoute
 
 > Diagramas em PNG (para o relatório e o vídeo): `reports/figures/00_arquitetura.png`,
-> `00b_cromossomo.png`, `00c_ciclo_ga.png`, `00d_fluxo_llm.png` — gerados por
+> `00b_cromossomo.png`, `00c_ciclo_ga.png`, `00d_fluxo_llm.png`, `00e_implantacao.png` — gerados por
 > `python scripts/gerar_diagramas.py`. Abaixo, as mesmas ideias em Mermaid (o
 > GitHub renderiza).
 
@@ -135,6 +135,7 @@ sequenceDiagram
 | **Folium (HTML) + PNG com tiles OSM** | Só um dos dois | HTML para explorar (camadas, popups); PNG para relatório e vídeo. |
 | **API + painel separados** | Só painel | A API é a integração com outros sistemas do hospital; o painel é a operação do dia a dia. |
 | **Planos em memória na API** | Banco de dados | Escopo de demonstração; a troca por Redis/Postgres é local ao `PLANOS`. |
+| **VPS + Docker + timer que puxa do GitHub** | PaaS; GitHub Actions empurrando por SSH | Nenhuma credencial do servidor fica no GitHub; a VPS já existia; o custo é até 60 s de atraso entre o commit e a publicação. |
 
 ## 6. Como estender
 
@@ -143,3 +144,37 @@ sequenceDiagram
 * **Outro modelo de LLM**: variável `MEDROUTE_LLM_MODELS` (lista separada por vírgulas). Qualquer modelo da OpenRouter funciona; os gratuitos dependem dos provedores liberados na conta.
 * **Nova abordagem de comparação**: registrar em `baselines.BASELINES` ou em `run_baseline`.
 * **Multi-depósito / múltiplas viagens**: o cromossomo comporta separadores tipados (um por viagem/depósito); a fitness reinicia o relógio a cada retorno.
+
+## 7. Implantação em nuvem
+
+O painel está em **https://187.127.18.205/fase2/**, numa VPS da Hostinger (Ubuntu 24.04). Os
+arquivos ficam em [`deploy/`](../deploy/) e a operação em [`HOSTINGER.md`](../HOSTINGER.md).
+
+![Implantação](../reports/figures/00e_implantacao.png)
+
+```mermaid
+flowchart LR
+    U[Navegador] -->|HTTPS 443| NG
+    subgraph VPS[VPS Hostinger · Ubuntu 24.04]
+        NG[nginx<br/>80 → 443 · TLS Let's Encrypt]
+        NG -->|/fase2/| CT[Contêiner medroute<br/>Streamlit :8501]
+        NG -->|/| OUT[Outro sistema<br/>nfe-scrap :8080]
+        CT --- VOL[(data · reports · cache)]
+        ENV[runtime.env<br/>chave OpenRouter] -.->|env-file| CT
+        T1[medroute-update.timer · 60 s] --> UP[update.sh<br/>fetch → build → troca → health check]
+        UP --> CT
+        T2[hostinger-https-renew.timer · 6 h] --> RN[certbot renew<br/>+ reload do nginx]
+        RN --> NG
+    end
+    GH[GitHub · main] -->|git fetch| UP
+    CT -->|HTTPS| OR[OpenRouter]
+```
+
+| Arquivo | Papel |
+|---|---|
+| `Dockerfile`, `.dockerignore` | imagem só com o painel e o pacote (`pip install -e ".[benchmark]"`), usuário sem privilégio |
+| `deploy/provision.sh` | provisiona uma VPS limpa: pacotes, certificado, nginx, renovação e deploy contínuo |
+| `deploy/nginx-site.conf` · `deploy/nginx-location.conf` | site completo (TLS + redirecionamento) · só o bloco `/fase2/` |
+| `deploy/renew-hostinger-https` + `hostinger-https-renew.{service,timer}` | renovação do certificado a cada 6 h |
+| `deploy/setup.sh` | clona o repositório em `/opt/medroute/repo` e liga o timer de atualização |
+| `deploy/update.sh` + `medroute-update.{service,timer}` | entrega contínua a cada 60 s, com trava (`flock`) e *health check* |

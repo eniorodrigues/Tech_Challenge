@@ -1,0 +1,7 @@
+#!/bin/bash
+set -euo pipefail
+exec 9>/run/hostinger-https-renew.lock
+flock -n 9 || exit 0
+docker run --rm -v /etc/letsencrypt:/etc/letsencrypt -v /var/lib/letsencrypt:/var/lib/letsencrypt -v /var/log/letsencrypt:/var/log/letsencrypt -v /var/www/letsencrypt:/var/www/letsencrypt certbot/certbot:latest renew --non-interactive --no-random-sleep-on-renew "$@"
+nginx -t
+systemctl reload nginx

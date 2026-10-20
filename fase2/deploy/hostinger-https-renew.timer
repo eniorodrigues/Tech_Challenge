@@ -1,0 +1,8 @@
+[Unit]
+Description=Verificar renovacao HTTPS a cada seis horas
+[Timer]
+OnBootSec=5min
+OnUnitInactiveSec=6h
+Persistent=true
+[Install]
+WantedBy=timers.target

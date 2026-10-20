@@ -99,6 +99,22 @@ def _tabela(linhas: list[str], st, largura: float):
     tam = [min(t, 60) for t in tam]
     tot = sum(tam)
     larg = [largura * t / tot for t in tam]
+    # coluna estreita não quebra palavra no meio (nem célula curta, como "R$ 1.178,08"):
+    # alarga até o maior bloco, com no máximo 30% da largura
+    estilo = st["celh"]
+
+    def blocos(c: str) -> list[str]:
+        c = re.sub(r"[*`]", "", c).strip()
+        return [c] if len(c) <= 12 else c.split()
+
+    minimo = [min(0.3 * largura, 16 + max((pdfmetrics.stringWidth(p, estilo.fontName, estilo.fontSize)
+                                          for r in dados for p in blocos(r[j])), default=0))
+              for j in range(n)]
+    fixas = [j for j in range(n) if larg[j] < minimo[j]]
+    livre = sum(larg[j] for j in range(n) if j not in fixas)
+    resto = largura - sum(minimo[j] for j in fixas)
+    if fixas and livre > 0 and resto > 0.5 * livre:
+        larg = [minimo[j] if j in fixas else larg[j] * resto / livre for j in range(n)]
     corpo = [[Paragraph(_inline(c), st["celh"] if i == 0 else st["cel"]) for c in r]
              for i, r in enumerate(dados)]
     t = Table(corpo, colWidths=larg, repeatRows=1)

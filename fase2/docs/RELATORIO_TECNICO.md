@@ -4,6 +4,9 @@
 
 Autor: Enio Rodrigues · FIAP — Pós-Tech IA para Devs · outubro de 2026
 
+Repositório: https://github.com/eniorodrigues/Tech_Challenge/tree/main/fase2 ·
+Aplicação online: https://187.127.18.205/fase2/ · Vídeo: https://youtu.be/w4pS3wKAtDs
+
 > Todos os números deste relatório são reproduzíveis: `python main.py` (plano do dia, comparativo,
 > semana e textos da LLM) e `python scripts/run_experiments.py` (10 sementes por método,
 > ablação, escalabilidade). Arquivos de origem citados em cada tabela.
@@ -475,8 +478,30 @@ encontrado motivou uma regra), não estatística.
   do código base reescrito (`python main.py visualizar`).
 * **Reprodutibilidade**: sementes fixas em cenário, GA, heurísticas e experimentos; o pipeline
   completo roda em ~5 min (a maior parte é a LLM; com cache, nenhuma requisição nova).
-* **Nuvem**: não adotada (opcional no enunciado); a API e o painel são *stateless* o bastante para
-  um contêiner, e os planos em memória são o único ponto a trocar por um armazenamento.
+* **Nuvem**: o painel está publicado numa VPS da Hostinger, com HTTPS e atualização automática a
+  cada commit na `main` (seção 8.1).
+
+### 8.1 Implantação em nuvem (Hostinger)
+
+![Implantação](../reports/figures/00e_implantacao.png)
+
+O painel Streamlit roda em **https://187.127.18.205/fase2/**, numa VPS Ubuntu 24.04 que também
+hospeda outro sistema na raiz do mesmo endereço. Tudo o que foi instalado na VPS está versionado
+em `deploy/` e documentado em `HOSTINGER.md`:
+
+| Camada | Como | Arquivos |
+|---|---|---|
+| Provisionamento | script idempotente para uma VPS limpa: pacotes (Docker, nginx), certificado, renovação e deploy contínuo | `deploy/provision.sh` |
+| Proxy e TLS | nginx: HTTP → HTTPS; `/fase2/` → contêiner (WebSocket, `proxy_buffering off`); certificado Let's Encrypt **para o IP** (perfil *shortlived*, ~6,5 dias) | `deploy/nginx-site.conf`, `deploy/nginx-location.conf` |
+| Renovação | timer systemd a cada 6 h roda `certbot renew` (imagem Docker oficial) e recarrega o nginx; renovação simulada (*dry-run*) aprovada na instalação | `deploy/renew-hostinger-https`, `deploy/hostinger-https-renew.{service,timer}` |
+| Entrega contínua | timer de 60 s: `git fetch`; havendo commit novo, `git archive` da `fase2/` → `docker build` → troca do contêiner → *health check*; a revisão publicada só é registrada se o painel responder | `deploy/setup.sh`, `deploy/update.sh`, `deploy/medroute-update.{service,timer}` |
+| Contêiner | Python 3.12 slim, só o painel (`baseUrlPath=fase2`), usuário sem privilégio, 1 CPU e 1,5 GB, porta só em `127.0.0.1`, volumes para dados, relatórios e cache da LLM | `Dockerfile`, `.dockerignore`, `.streamlit/config.toml` |
+| Segredo | chave da OpenRouter num arquivo de ambiente da VPS (permissão 600), fora do Git e da imagem; sem ele, o painel usa o modo offline | `/opt/medroute/runtime.env` (só no servidor) |
+
+A VPS em si foi criada pelo painel da Hostinger (o cloud-init é o padrão do provedor); os arquivos
+de `deploy/` foram copiados da máquina em produção, e o modelo do nginx difere dela só na raiz `/`,
+que lá atende o outro sistema. A API REST, o notebook e o gerador de vídeo não são expostos — rodam
+localmente.
 
 ---
 
@@ -491,6 +516,9 @@ encontrado motivou uma regra), não estatística.
   local com SLA; o código não muda.
 * **Validação com a equipe de logística** do hospital antes de qualquer uso real; o sistema é apoio
   à decisão — o despachante decide.
+* **Implantação de demonstração**: uma única VPS, painel sem login e planos em memória. Para uso
+  real: autenticação, SSH só por chave com usuário sem root, firewall restrito a 22/80/443, domínio
+  próprio e os planos num banco (a troca é local ao `PLANOS` da API).
 
 ---
 
@@ -507,6 +535,14 @@ python scripts/avaliar_llm.py                           # avaliação da LLM
 python -m pytest                                        # testes
 streamlit run app/dashboard.py                          # painel
 uvicorn medroute.api.app:app --reload                   # API (docs em /docs)
+```
+
+Implantação numa VPS Ubuntu 24.04 limpa (como root; detalhes em `HOSTINGER.md`):
+
+```bash
+apt-get install -y git
+git clone --branch main https://github.com/eniorodrigues/Tech_Challenge.git /opt/medroute/repo
+bash /opt/medroute/repo/fase2/deploy/provision.sh <IP-da-VPS>
 ```
 
 ---

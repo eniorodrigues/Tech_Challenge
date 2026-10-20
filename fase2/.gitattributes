@@ -1,0 +1,3 @@
+# Arquivos executados no Linux da VPS: sempre LF, mesmo em checkout no Windows.
+deploy/** text eol=lf
+Dockerfile text eol=lf

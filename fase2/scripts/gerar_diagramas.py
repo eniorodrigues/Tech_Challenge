@@ -59,13 +59,14 @@ def caixa(ax, x, y, w, h, titulo, corpo="", destaque=False, tam=11.5):
     return (x, y, w, h)
 
 
-def seta(ax, a, b, de="r", para="l", texto="", curva=0.0):
+def seta(ax, a, b, de="r", para="l", texto="", curva=0.0, dy_de=0.0, dy_para=0.0):
     def ponto(c, lado):
         x, y, w, h = c
         return {"r": (x + w, y + h / 2), "l": (x, y + h / 2), "t": (x + w / 2, y + h),
                 "b": (x + w / 2, y)}[lado]
 
     p0, p1 = ponto(a, de), ponto(b, para)
+    p0, p1 = (p0[0], p0[1] + dy_de), (p1[0], p1[1] + dy_para)
     ax.add_patch(FancyArrowPatch(p0, p1, arrowstyle="-|>", mutation_scale=14, color=SETA,
                                  linewidth=1.4, connectionstyle=f"arc3,rad={curva}",
                                  shrinkA=4, shrinkB=4))
@@ -228,12 +229,52 @@ def fluxo_llm(destino: Path) -> None:
     plt.close(fig)
 
 
+def implantacao(destino: Path) -> None:
+    fig, ax = _tela("Implantação em nuvem — VPS Hostinger",
+                    "Painel publicado em https://187.127.18.205/fase2/ · atualização automática a partir do GitHub")
+    grupo(ax, 0.3, 0.45, 2.75, 7.2, "Externo")
+    grupo(ax, 3.3, 0.45, 9.25, 7.2, "VPS Hostinger · Ubuntu 24.04 · Docker + nginx + systemd")
+    grupo(ax, 12.75, 0.45, 2.95, 7.2, "Externo")
+
+    u = caixa(ax, 0.45, 5.4, 2.45, 1.7, "Navegador", "equipe de logística\nbanca avaliadora")
+    gh = caixa(ax, 0.45, 3.0, 2.45, 1.95, "GitHub", "eniorodrigues/\nTech_Challenge\nbranch main")
+
+    ng = caixa(ax, 3.55, 5.25, 3.05, 1.95, "nginx",
+               "TLS Let's Encrypt (IP) · 80 → 443\nrenovação: timer de 6 h (certbot)\n"
+               "/fase2/ → contêiner :8501\n/ → nfe-scrap (outro sistema)",
+               destaque=True)
+    tm = caixa(ax, 3.55, 2.95, 3.05, 1.95, "systemd timer (60 s)",
+               "medroute-update.service\n→ deploy/update.sh")
+    up = caixa(ax, 3.55, 0.7, 3.05, 1.9, "update.sh",
+               "git fetch → docker build\n→ troca do contêiner\n→ health check")
+    ct = caixa(ax, 6.9, 3.3, 3.4, 3.9, "Contêiner medroute",
+               "imagem: fase2/Dockerfile\nStreamlit · baseUrlPath=fase2\nusuário sem privilégio\n"
+               "1 CPU · 1,5 GB de memória\nrestart unless-stopped", destaque=True)
+    vol = caixa(ax, 6.9, 0.7, 3.4, 2.1, "Volumes persistentes",
+                "/opt/medroute/data\nreports · cache (respostas da LLM)")
+    env = caixa(ax, 10.55, 2.95, 1.85, 1.9, "runtime.env", "chave OpenRouter\npermissão 600\nfora do git")
+    caixa(ax, 10.55, 0.7, 1.85, 1.9, "Não expostos", "API REST\nnotebook\ngerador de vídeo")
+    orr = caixa(ax, 12.9, 5.3, 2.65, 1.9, "OpenRouter", "Nemotron 3 Ultra\n(gratuito)")
+
+    seta(ax, u, ng)
+    seta(ax, ng, ct, "r", "l", dy_para=0.9)
+    seta(ax, gh, tm, "r", "l", texto="poll")
+    seta(ax, tm, up, "b", "t")
+    seta(ax, up, ct, "r", "l", dy_para=-1.4)
+    seta(ax, ct, vol, "b", "t")
+    seta(ax, env, ct, "l", "r", dy_para=-1.2)
+    seta(ax, ct, orr, "r", "l", dy_de=1.0)
+    fig.savefig(destino, dpi=120)
+    plt.close(fig)
+
+
 def main() -> int:
     FIGURES_DIR.mkdir(parents=True, exist_ok=True)
     arquitetura(FIGURES_DIR / "00_arquitetura.png")
     cromossomo(FIGURES_DIR / "00b_cromossomo.png")
     ciclo_ga(FIGURES_DIR / "00c_ciclo_ga.png")
     fluxo_llm(FIGURES_DIR / "00d_fluxo_llm.png")
+    implantacao(FIGURES_DIR / "00e_implantacao.png")
     for f in sorted(FIGURES_DIR.glob("00*.png")):
         print(f)
     return 0

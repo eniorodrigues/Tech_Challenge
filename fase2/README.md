@@ -11,6 +11,9 @@ cadeia fria, medicamentos controlados, janelas de recebimento e jornada. Uma **L
 diários e semanais, sugestões de melhoria e respostas em linguagem natural — e cada resposta é
 **auditada automaticamente** contra os dados.
 
+**Aplicação online:** https://187.127.18.205/fase2/ · **Vídeo:** https://youtu.be/w4pS3wKAtDs ·
+**Relatório (PDF):** [`Tech_Challenge_Fase2_Entregavel.pdf`](Tech_Challenge_Fase2_Entregavel.pdf)
+
 ![Rotas otimizadas](reports/figures/01_mapa_rotas_ga.png)
 
 | Cenário de referência (36 entregas, 5 veículos) | Processo atual | **MedRoute** |
@@ -40,7 +43,8 @@ prompt.
 | Notebook de demonstração (executado) | [`notebooks/demo_medroute.ipynb`](notebooks/demo_medroute.ipynb) |
 | Scripts de demonstração/experimentos | [`main.py`](main.py), [`scripts/run_experiments.py`](scripts/run_experiments.py), [`scripts/avaliar_llm.py`](scripts/avaliar_llm.py) |
 | Testes automatizados | [`tests/`](tests/) — `python -m pytest` |
-| Vídeo de demonstração (até 15 min) | gerado por [`scripts/video/`](scripts/video/) · roteiro em [`docs/ROTEIRO_VIDEO.md`](docs/ROTEIRO_VIDEO.md) · legendas em [`video/`](video/) |
+| Vídeo de demonstração (11 min 41 s) | **https://youtu.be/w4pS3wKAtDs** · gerado por [`scripts/video/`](scripts/video/) · roteiro em [`docs/ROTEIRO_VIDEO.md`](docs/ROTEIRO_VIDEO.md) · legendas em [`video/`](video/) |
+| Aplicação publicada (painel) | **https://187.127.18.205/fase2/** · implantação em [`HOSTINGER.md`](HOSTINGER.md), [`Dockerfile`](Dockerfile) e [`deploy/`](deploy/) |
 | Código base original (referência) | [`legacy/`](legacy/) — com a análise dos problemas encontrados |
 
 ---
@@ -75,8 +79,9 @@ copy .env.example .env                 # (opcional) coloque sua OPENROUTER_API_K
 | Testes | `python -m pytest` |
 | Notebook (recria e executa) | `python scripts/gerar_notebook.py` |
 | Diagramas de arquitetura | `python scripts/gerar_diagramas.py` |
-| PDF entregável | `python scripts/gerar_relatorio_pdf.py` |
+| PDF entregável | `python scripts/gerar_relatorio_pdf.py --repo <url> --video <url> --site <url>` |
 | Vídeo (MP4 + SRT) | `python scripts/video/gerar_video.py` |
+| Implantar numa VPS Ubuntu 24.04 (como root) | `bash deploy/provision.sh <IP>` — ver [`HOSTINGER.md`](HOSTINGER.md) |
 
 ---
 
@@ -131,6 +136,8 @@ fase2/
 ├── docs/                   # relatório técnico, arquitetura, API, prompts, roteiro do vídeo
 ├── reports/                # figuras, mapas, CSVs, planos JSON, textos e avaliação da LLM
 ├── legacy/                 # código base original (CC0) + análise
+├── deploy/                 # provisionamento da VPS, nginx, HTTPS, deploy contínuo
+├── Dockerfile              # imagem do painel publicado
 └── data/cenario_padrao.json
 ```
 
@@ -161,6 +168,8 @@ fase2/
 | Testes automatizados | `tests/` |
 | Comparativo com outras abordagens | `baselines.py`, `scripts/run_experiments.py` · relatório §6 |
 | Visualizações e análises | `reports/figures/`, `reports/maps/` · relatório §5 |
+| Vídeo de até 15 min | https://youtu.be/w4pS3wKAtDs (11 min 41 s) |
+| Nuvem (opcional) | VPS Hostinger com HTTPS e deploy contínuo · `deploy/`, `HOSTINGER.md` · relatório §8.1 |
 
 ---
 

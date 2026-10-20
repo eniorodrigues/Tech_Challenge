@@ -1,0 +1,8 @@
+[Unit]
+Description=Renovar certificado HTTPS da VPS
+After=network-online.target docker.service
+Wants=network-online.target
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /usr/local/sbin/renew-hostinger-https
+TimeoutStartSec=10min
