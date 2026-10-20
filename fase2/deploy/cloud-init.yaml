@@ -1,0 +1,56 @@
+#cloud-config
+# MedRoute — provisionamento na criação da VPS (Ubuntu 24.04).
+#
+# Use este arquivo como "user data" (cloud-init) ao criar a VPS. Na primeira
+# inicialização ele instala o git, clona o repositório e roda o
+# deploy/provision.sh: Docker + nginx, certificado Let's Encrypt para o IP,
+# renovação a cada 6 h e deploy contínuo do painel (timer de 60 s).
+# Acompanhe com:  tail -f /var/log/medroute-provision.log
+#
+# Antes de usar:
+#  * troque a chave pública abaixo pela sua (este arquivo substitui o
+#    cloud-init padrão do provedor, que cria a senha de root);
+#  * deixe as portas 22, 80 e 443 liberadas no firewall do provedor;
+#  * NÃO coloque a chave da OpenRouter aqui: o user data fica gravado na VPS
+#    e no provedor. Crie /opt/medroute/runtime.env depois, por SSH (HOSTINGER.md).
+
+# Acesso: root só por chave SSH, sem senha.
+disable_root: false
+ssh_pwauth: false
+ssh_authorized_keys:
+  - ssh-ed25519 AAAA...troque-pela-sua-chave-publica... medroute-admin
+
+package_update: true
+packages:
+  - git
+  - curl
+  - ca-certificates
+
+write_files:
+  - path: /usr/local/sbin/medroute-bootstrap
+    permissions: "0755"
+    content: |
+      #!/bin/bash
+      set -euo pipefail
+      REPO=https://github.com/eniorodrigues/Tech_Challenge.git
+      BRANCH=main
+      IP=""   # vazio = IP da interface de saída (na Hostinger, o IP público fica na eth0)
+      if [ -z "$IP" ]; then
+          IP=$(ip -4 route get 1.1.1.1 | awk '{for (i = 1; i < NF; i++) if ($i == "src") print $(i + 1)}')
+      fi
+      case "$IP" in
+          ""|10.*|192.168.*|172.1[6-9].*|172.2[0-9].*|172.3[01].*)
+              echo "IP público não detectado ('$IP'): defina IP= em /usr/local/sbin/medroute-bootstrap" >&2
+              exit 1 ;;
+      esac
+      echo "== MedRoute: provisionando $IP ($(date -u))"
+      if [ ! -d /opt/medroute/repo/.git ]; then
+          install -d /opt/medroute
+          git clone --branch "$BRANCH" --single-branch "$REPO" /opt/medroute/repo
+      fi
+      bash /opt/medroute/repo/fase2/deploy/provision.sh "$IP"
+
+runcmd:
+  - [bash, -c, "/usr/local/sbin/medroute-bootstrap >> /var/log/medroute-provision.log 2>&1"]
+
+final_message: "MedRoute: cloud-init concluído em $UPTIME s — veja /var/log/medroute-provision.log"

@@ -173,6 +173,7 @@ flowchart LR
 | Arquivo | Papel |
 |---|---|
 | `Dockerfile`, `.dockerignore` | imagem só com o painel e o pacote (`pip install -e ".[benchmark]"`), usuário sem privilégio |
+| `deploy/cloud-init.yaml` | *user data* da criação da VPS: root só por chave, clona o repositório e chama o `provision.sh` |
 | `deploy/provision.sh` | provisiona uma VPS limpa: pacotes, certificado, nginx, renovação e deploy contínuo |
 | `deploy/nginx-site.conf` · `deploy/nginx-location.conf` | site completo (TLS + redirecionamento) · só o bloco `/fase2/` |
 | `deploy/renew-hostinger-https` + `hostinger-https-renew.{service,timer}` | renovação do certificado a cada 6 h |

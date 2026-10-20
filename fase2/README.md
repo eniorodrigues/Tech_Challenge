@@ -81,7 +81,7 @@ copy .env.example .env                 # (opcional) coloque sua OPENROUTER_API_K
 | Diagramas de arquitetura | `python scripts/gerar_diagramas.py` |
 | PDF entregável | `python scripts/gerar_relatorio_pdf.py --repo <url> --video <url> --site <url>` |
 | Vídeo (MP4 + SRT) | `python scripts/video/gerar_video.py` |
-| Implantar numa VPS Ubuntu 24.04 (como root) | `bash deploy/provision.sh <IP>` — ver [`HOSTINGER.md`](HOSTINGER.md) |
+| Implantar numa VPS Ubuntu 24.04 | na criação: [`deploy/cloud-init.yaml`](deploy/cloud-init.yaml) como *user data*; já criada (root): `bash deploy/provision.sh <IP>` — ver [`HOSTINGER.md`](HOSTINGER.md) |
 
 ---
 
@@ -136,7 +136,7 @@ fase2/
 ├── docs/                   # relatório técnico, arquitetura, API, prompts, roteiro do vídeo
 ├── reports/                # figuras, mapas, CSVs, planos JSON, textos e avaliação da LLM
 ├── legacy/                 # código base original (CC0) + análise
-├── deploy/                 # provisionamento da VPS, nginx, HTTPS, deploy contínuo
+├── deploy/                 # cloud-init e provisionamento da VPS, nginx, HTTPS, deploy contínuo
 ├── Dockerfile              # imagem do painel publicado
 └── data/cenario_padrao.json
 ```
@@ -169,7 +169,7 @@ fase2/
 | Comparativo com outras abordagens | `baselines.py`, `scripts/run_experiments.py` · relatório §6 |
 | Visualizações e análises | `reports/figures/`, `reports/maps/` · relatório §5 |
 | Vídeo de até 15 min | https://youtu.be/w4pS3wKAtDs (11 min 41 s) |
-| Nuvem (opcional) | VPS Hostinger com HTTPS e deploy contínuo · `deploy/`, `HOSTINGER.md` · relatório §8.1 |
+| Nuvem (opcional) + IaC | VPS Hostinger com HTTPS e deploy contínuo · `deploy/cloud-init.yaml`, `deploy/provision.sh`, `HOSTINGER.md` · relatório §8.1 |
 
 ---
 

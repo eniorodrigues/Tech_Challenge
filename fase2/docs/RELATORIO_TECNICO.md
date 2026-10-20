@@ -491,6 +491,7 @@ em `deploy/` e documentado em `HOSTINGER.md`:
 
 | Camada | Como | Arquivos |
 |---|---|---|
+| Criação da VPS | *user data* (cloud-init): root só por chave SSH, clona o repositório e chama o `provision.sh` com o IP público detectado na primeira inicialização | `deploy/cloud-init.yaml` |
 | Provisionamento | script idempotente para uma VPS limpa: pacotes (Docker, nginx), certificado, renovação e deploy contínuo | `deploy/provision.sh` |
 | Proxy e TLS | nginx: HTTP → HTTPS; `/fase2/` → contêiner (WebSocket, `proxy_buffering off`); certificado Let's Encrypt **para o IP** (perfil *shortlived*, ~6,5 dias) | `deploy/nginx-site.conf`, `deploy/nginx-location.conf` |
 | Renovação | timer systemd a cada 6 h roda `certbot renew` (imagem Docker oficial) e recarrega o nginx; renovação simulada (*dry-run*) aprovada na instalação | `deploy/renew-hostinger-https`, `deploy/hostinger-https-renew.{service,timer}` |
@@ -498,10 +499,12 @@ em `deploy/` e documentado em `HOSTINGER.md`:
 | Contêiner | Python 3.12 slim, só o painel (`baseUrlPath=fase2`), usuário sem privilégio, 1 CPU e 1,5 GB, porta só em `127.0.0.1`, volumes para dados, relatórios e cache da LLM | `Dockerfile`, `.dockerignore`, `.streamlit/config.toml` |
 | Segredo | chave da OpenRouter num arquivo de ambiente da VPS (permissão 600), fora do Git e da imagem; sem ele, o painel usa o modo offline | `/opt/medroute/runtime.env` (só no servidor) |
 
-A VPS em si foi criada pelo painel da Hostinger (o cloud-init é o padrão do provedor); os arquivos
+A VPS atual foi criada pelo painel da Hostinger, com o cloud-init padrão do provedor; os arquivos
 de `deploy/` foram copiados da máquina em produção, e o modelo do nginx difere dela só na raiz `/`,
-que lá atende o outro sistema. A API REST, o notebook e o gerador de vídeo não são expostos — rodam
-localmente.
+que lá atende o outro sistema. Para recriar a infraestrutura, o `cloud-init.yaml` (validado com
+`cloud-init schema`) provisiona tudo na criação da VPS, sem passos manuais além da chave da
+OpenRouter, que fica de fora do *user data* de propósito. A API REST, o notebook e o gerador de vídeo
+não são expostos — rodam localmente.
 
 ---
 
@@ -537,7 +540,8 @@ streamlit run app/dashboard.py                          # painel
 uvicorn medroute.api.app:app --reload                   # API (docs em /docs)
 ```
 
-Implantação numa VPS Ubuntu 24.04 limpa (como root; detalhes em `HOSTINGER.md`):
+Implantação: na criação da VPS, usar `deploy/cloud-init.yaml` como *user data*; numa VPS Ubuntu
+24.04 já criada (como root; detalhes em `HOSTINGER.md`):
 
 ```bash
 apt-get install -y git

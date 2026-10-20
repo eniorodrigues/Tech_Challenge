@@ -9,6 +9,7 @@ Painel publicado: **https://187.127.18.205/fase2/** (HTTP redireciona para HTTPS
 | Peça | O que faz | Arquivo no repositório |
 |---|---|---|
 | VPS | Hostinger, Ubuntu 24.04, criada pelo painel da Hostinger (cloud-init padrão da Hostinger: senha de root e SSH) | — |
+| Criação da VPS | *user data* (cloud-init): acesso de root só por chave, instala o git, clona o repositório e chama o `provision.sh` com o IP público detectado | [`deploy/cloud-init.yaml`](deploy/cloud-init.yaml) |
 | Provisionamento | instala Docker e nginx, emite o certificado, liga a renovação e o deploy contínuo | [`deploy/provision.sh`](deploy/provision.sh) |
 | nginx | HTTP 80 → HTTPS 443; `/fase2/` → contêiner em `127.0.0.1:8501` (com WebSocket); `/` atende outro sistema (contêiner `nfe-scrap`) | [`deploy/nginx-site.conf`](deploy/nginx-site.conf) (site completo) · [`deploy/nginx-location.conf`](deploy/nginx-location.conf) (só o bloco `/fase2/`) |
 | Certificado | Let's Encrypt para o **endereço IP** (perfil `shortlived`, validade de ~6,5 dias), desafio `webroot` em `/var/www/letsencrypt` | emitido pelo `provision.sh` |
@@ -33,7 +34,14 @@ Não são expostos por este deploy: a API REST, o notebook e o gerador de vídeo
 
 ## Recriar numa VPS nova
 
-Ubuntu 24.04 limpa, portas 80 e 443 liberadas, como root:
+**Na criação (cloud-init).** Troque a chave pública em [`deploy/cloud-init.yaml`](deploy/cloud-init.yaml)
+pela sua e use o arquivo como *user data* da VPS (Ubuntu 24.04, portas 22, 80 e 443 liberadas). Na
+primeira inicialização ele chama o `provision.sh` sozinho; o andamento fica em
+`/var/log/medroute-provision.log`. Ele substitui o cloud-init padrão do provedor, que cria a senha de
+root, e por isso desliga o login por senha. A chave da OpenRouter não vai no *user data*, que fica
+gravado na VPS e no provedor: crie o `runtime.env` depois, por SSH.
+
+**Numa VPS já criada.** Ubuntu 24.04 limpa, portas 80 e 443 liberadas, como root:
 
 ```bash
 apt-get install -y git
@@ -43,7 +51,9 @@ bash /opt/medroute/repo/fase2/deploy/provision.sh <IP-da-VPS>
 
 O script é idempotente: numa VPS já provisionada ele não troca o certificado nem o site do nginx.
 Ele foi montado a partir da VPS em produção (arquivos copiados de lá; o site do nginx difere só na
-raiz `/`, que em produção atende o outro sistema) e não foi reexecutado numa VPS limpa.
+raiz `/`, que em produção atende o outro sistema) e não foi reexecutado numa VPS limpa. O
+`cloud-init.yaml` foi validado com `cloud-init schema` (versão 26.1, a da VPS), mas também não foi
+usado para criar uma VPS.
 
 ## Operação
 
